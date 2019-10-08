@@ -13,7 +13,7 @@ exports.notifyNewQuestion = functions.firestore
         const newValue = snap.data();
         const question = newValue.question;
         return request.post(
-            "https://hooks.slack.com/services/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",
-            {json: {text: `<@UMJKG46TG> ${question}`}}
+            "[Slack Webhook URL]",
+            {json: {text: `<@Bot_ID> ${question}`}}
         );
     });

@@ -17,5 +17,10 @@ export default {
 <style lang="scss" scoped>
 @import "./css/reset.css";
 @import "./css/style.scss";
+</style>
 
+<style lang="scss">
+::-webkit-scrollbar {
+  display: none;
+}
 </style>
