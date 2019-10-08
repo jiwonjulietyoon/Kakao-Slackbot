@@ -1,0 +1,159 @@
+@mixin maxWidth($screen) {
+    @media (max-width: $screen + 'px') {
+      @content;
+    }
+  }
+@mixin minWidth($screen) {
+  @media (min-width: $screen + 'px') {
+    @content;
+  }
+}
+
+@mixin disable-user-select {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
+}
+
+@mixin text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+$font-kakao-round: 'Fredoka One', cursive;
+
+
+
+$kakao-yellow: rgb(255, 235, 51);
+$kakao-yellow-outline: rgb(231, 213, 46);
+$kakao-brown: rgb(66, 54, 48);
+$mac-red: rgb(255, 98, 89);
+$mac-yellow: rgb(255, 193, 48);
+$mac-green: rgb(42, 207, 66);
+$mac-gray: rgb(210, 208, 207);
+$mac-blue: rgb(52, 129, 243);
+$btn-disabled: rgb(246, 246, 246);
+$btn-gray: rgb(122, 113, 111);
+$btn-gray-hover: rgb(161, 155, 152);
+$btn-gray2: rgb(125, 125, 125);
+$outline-gray: rgb(230, 230, 230);
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to left, #0F2027, #203A43);
+}
+
+.kakaoContainer {
+  width: 500px;
+  height: 98vh;
+  border-radius: 5px;
+  margin: 1vh auto;
+  background: white;
+  overflow: hidden;
+  @include maxWidth(500) {
+    width: 100%;
+    min-width: 400px;
+  }
+}
+
+.btnBoxMac {
+  width: 100%;
+  height: 20px;
+  padding: 5px 7px;
+  & > .btn {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+    border: 0.2px solid rgba(161, 155, 152, 0.8);
+    &.close {
+      background: $mac-red;
+      position: relative;
+      .cross {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 60%;
+        height: 1px;
+        background: rgb(100, 7, 6);
+        &:first-child {
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+        &:last-child {
+          transform: translate(-50%, -50%) rotate(-45deg);
+        }
+      }
+    }
+    &.minimize {
+      background: $mac-yellow;
+      position: relative;
+      .cross {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 60%;
+        height: 1px;
+        background: rgb(153, 103, 17);
+        transform: translate(-50%, -50%);
+      }
+    }
+    &.expand {
+      background: $mac-green;
+      margin-right: 0;
+      position: relative;
+      overflow: hidden;
+      .rectangle {
+        width: 50%; height: 50%;
+        background: rgb(1, 100, 0);
+        position: absolute;
+        top: 49%; left: 49%;
+        transform: translate(-50%, -50%);
+      }
+      .diagonal {
+        width: 2px;
+        height: 100%;
+        background: $mac-green;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+    }
+    .hidden {
+      opacity: 0;
+    }
+  }
+}
+
+.scrollable::-webkit-scrollbar {
+  display: initial;
+  width: 7px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+.scrollable::-webkit-scrollbar-thumb:vertical {
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0);
+  min-height: 10px;
+  &:active {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+  }
+}

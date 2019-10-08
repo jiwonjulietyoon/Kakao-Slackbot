@@ -1,0 +1,252 @@
+@import "./style.scss";
+
+.botInfo {
+  height: 100px;
+  background: rgb(250, 250, 250);
+  border-bottom: 0.5px solid #BBBBBB;
+  .infoBox {
+    height: calc(100% - 20px);
+    padding: 15px;
+    .botImg {
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 0.5px solid $btn-disabled;
+      margin-right: 10px;
+    }
+    .botText {
+      width: calc(100% - 65px);
+      float: right;
+      height: 100%;
+      .top, .bottom {
+        width: 100%;
+        height: 50%;
+        .left {
+          float: left;
+        }
+        .right {
+          float: right;
+        }
+        .clearfix {
+          clear: both;
+        }
+      }
+      .scale {
+        width: 11px; height: 11px;
+        border-radius: 50%;
+        background: white;
+        border: 1px solid $btn-gray;
+        margin-top: 5px;
+        position: relative;
+        &::after {
+          width: 30px;
+          height: 1.5px;
+          border-radius: 2px;
+          background: $btn-gray;
+          position: absolute;
+          top: 3.5px;
+          right: 102%;
+        }
+      }
+      .members {
+        width: 30px;
+        @include disable-user-select;
+        i {
+          font-size: 0.95em;
+          color: $btn-gray2;
+          position: relative;
+          transform: translateY(3px);
+        }
+        span {
+          font-size: 0.75em;
+          color: $btn-gray2;
+          font-weight: bold;
+        }
+      }
+      .document {
+        font-size: 0.95em;
+        color: $btn-gray2;
+        transform: translateY(5.5px);
+        @include disable-user-select;
+      }
+      .icons {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1.5px solid $outline-gray;
+        margin-left: 5px;
+        position: relative;
+        @include disable-user-select;
+        .menu {
+          color: $btn-gray2;
+          position: absolute;
+          top: 50%; left: 49%;
+          transform: translate(-50%, -50%) scaleX(0.8);
+          font-size: 0.9em;
+          font-weight: bold;
+        }
+        .bell {
+          color: $btn-gray2;
+          font-size: 0.85em;
+          font-weight: bold;
+          position: absolute;
+          top: 50%; left: 51%;
+          transform: translate(-50%, -50%);
+        }
+        .search {
+          color: $btn-gray2;
+          position: absolute;
+          top: 50%; left: 52%;
+          transform: translate(-50%, -50%);
+          font-size: 0.85em;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+.messageContainer {
+  height: calc(100% - 245px);
+  overflow-y: auto;
+  padding: 10px;
+  background: #B2C7D9;
+}
+.message {
+  display: flex;
+  align-items: stretch;
+  margin: 10px 0;
+  height: auto;
+  .profImg {
+    height: 100%;
+  }
+  .profImg > img {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    object-fit: cover;
+    border-radius: 12px;
+    // border: 0.5px solid $btn-disabled;
+  }
+  .msgContent {
+    margin: 0 3px;
+    max-width: 65%;
+    height: 100%;
+    padding: 3px 1px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px 0px lightgray;
+    position: relative;
+    font-size: 0.9em;
+    & > div {
+      padding: 5px 7px 2px;
+      white-space: pre-line;
+      line-height: 20px;
+    }
+    &::after {
+      position: absolute;
+      width: 0; height: 0;
+      top: 6px;
+      border-radius: 3px;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
+  }
+  &.botMessage {
+    flex-direction: row;
+    .msgContent {
+      background: white;
+      &::after {
+        border-top: 7px solid white;
+        right: calc(100% - 7px);
+      }
+    }
+  }
+  &.userMessage {
+    flex-direction: row-reverse;
+    .profImg {
+      display: none;
+    }
+    .msgContent {
+      background: #FFEB33;
+      &::after {
+        border-top: 7px solid #FFEB33;
+        left: calc(100% - 7px);
+      }
+    }
+    .msgTime > div {
+      text-align: right;
+    }
+  }
+  .msgTime {
+    font-size: 0.7em;
+    position: relative;
+    width: 50px;
+    & > div {
+      width: 100%;
+      position: absolute;
+      bottom: 5px;
+    }
+  }
+}
+
+.attach {
+  height: 45px;
+  background: rgb(248, 248, 248);
+  padding: 0 10px;
+  .icons {
+    background: transparent;
+    color: $btn-gray2;
+    transform: translateY(10px);
+    @include disable-user-select;
+  }
+  .left {float: left;}
+  .right {float: right;}
+  .clip {
+    transform: translateY(10px) rotate(-45deg);
+    margin-left: 15px;
+  }
+  .phone {
+    margin-right: 15px;
+    font-size: 1.4em;
+  }
+}
+
+.sendMessage {
+  height: 100px;
+  border-top: 1px solid $outline-gray;
+  padding: 15px;
+}
+.inputContainer {
+  width: calc(100% - 80px);
+  height: 100%;
+  float: left;
+  padding-right: 15px;
+  & > textarea {
+    width: 100%; height: 100%;
+    resize: none;
+    &:focus {outline: none;}
+  }
+}
+.btnContainer {
+  width: 80px;
+  height: 100%;
+  float: left;
+  position: relative;
+  & > button {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: 5px;
+    background: $kakao-yellow;
+    border: 1px solid $kakao-yellow-outline;
+    color: #4D3636;
+    &:focus {outline: none;}
+    &:disabled {
+      background: $btn-disabled;
+      border-color: $outline-gray;
+      color: $btn-gray-hover;
+    }
+    &.hidden {display: none;}
+  }
+}
