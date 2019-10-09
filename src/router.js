@@ -8,7 +8,6 @@ import Chat_Self from '@/views/Chat_Self.vue';
 import Chat_Slackbot from '@/views/Chat_Slackbot.vue';
 import Chat_Members from '@/views/Chat_Members.vue';
 import Readme from '@/views/Readme.vue';
-import store from './vuex/store';
 import firebaseAuth from "@/firebase/firebaseAuth";
 
 

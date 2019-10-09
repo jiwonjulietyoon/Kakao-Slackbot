@@ -118,7 +118,8 @@ export default {
       this.$router.replace('/home');
     },
     sendMsg() {
-      if (this.message) {
+      const trimmedMsg = this.message.replace(/\s+/g, '');
+      if (trimmedMsg) {
         let now = new Date();
         this.conversations.push({
           created_at: now.getTime(),

@@ -86,7 +86,6 @@
 
 <script>
 import firestore from "@/firebase/firebase";
-import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 
 export default {
@@ -115,7 +114,8 @@ export default {
       this.$router.replace('/home');
     },
     sendMsgAdmin() {
-      if (this.message) {
+      const trimmedMsg = this.message.replace(/\s+/g, '');
+      if (trimmedMsg) {
         let now = new Date();
         firestore.collection('conversations')
           .add({
@@ -132,7 +132,8 @@ export default {
       }
     },
     sendMsgVisitor() {
-      if (this.message) {
+      const trimmedMsg = this.message.replace(/\s+/g, '');
+      if (trimmedMsg) {
         let now = new Date();
         this.conversations.push({
           created_at: now.getTime(),

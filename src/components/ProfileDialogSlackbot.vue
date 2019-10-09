@@ -33,10 +33,10 @@ export default {
     guideline() {
       let guideline = "";
       if (this.isAdmin) {
-        guideline = "챗봇 답장 시간이 조금 걸릴 수 있습니다 :) 차분히 기다려주세요~"
+        guideline = "챗봇 답장 시간이\n조금 걸릴 수 있습니다 :)\n차분히 기다려주세요~"
       }
       else {
-        guideline = "방문자 계정은 읽기 전용입니다. 챗봇과 대화하려면 관리자로 로그인해주세요 :)"
+        guideline = "방문자 계정은 읽기 전용입니다.\n챗봇과 대화하려면\n관리자로 로그인해주세요 :)"
       }
       return guideline
     }

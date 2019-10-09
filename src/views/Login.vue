@@ -55,7 +55,6 @@
 
 
 <script>
-import Vue from "vue";
 import firebaseAuth from "@/firebase/firebaseAuth";
 
 export default {
@@ -126,9 +125,14 @@ export default {
 <style lang="scss" scoped>
 @import "@/css/style.scss";
 
+.wrap {
+  overflow-y: auto;
+}
+
 .kakaoContainer {
   background: $kakao-yellow;
   position: relative;
+  min-height: 550px;
 }
 
 .main {

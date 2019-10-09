@@ -31,6 +31,7 @@ section.bgImg {
     text-align: center;
     padding: 0 15px;
     font-size: 1.3em;
+    white-space: pre-wrap;
     @include disable-user-select;
   }
 }
