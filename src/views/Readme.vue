@@ -57,13 +57,15 @@
           <div class="quote">
             <div>
               <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2FFriendsList.png?alt=media&token=d8a94bf9-1a16-409c-a063-4b435f419a2b" alt="Friends List" width=250 style="marginRight: 20px;">
-              <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2FProfile.png?alt=media&token=7d4b1827-e643-4806-a008-50055112398d" alt="Friends List" width=250>
+              <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2FProfile.png?alt=media&token=7d4b1827-e643-4806-a008-50055112398d" alt="Friends List" width=250 style="marginRight: 20px;">
+              <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/readme_contents%2FfullSizeImg.png?alt=media&token=73c48f1b-0d4c-4117-845f-c4c6a3afa79b" alt="Full Size Image" width=250>
             </div>
             <p>현재 로그인된 사용자는 내 프로필, 슬랙봇은 플러스 친구로 등록되어 있습니다. 그 외의 일반 친구 5명은 저희 팀원들로 구성하였습니다.</p>
             <ul>
               <li>Search Friends 검색창을 통해 일반 친구를 검색할 수 있습니다.</li>
               <li>프로필 이미지를 클릭하면 상세 프로필 정보를 확인할 수 있습니다.<ul style="listStyle: circle;">
                   <li>상세 프로필 하단의 버튼을 통해 채팅방 페이지, 팀원의 GitHub 사이트, 그리고 팀원의 웹사이트/블로그로 이동할 수 있습니다.</li>
+                  <li>프로필 또는 배경 이미지를 클릭하면 확대</li>
                 </ul>
               </li>
               <li>프로필 이미지를 제외한 나머지 프로필 영역을 더블클릭하면 해당 상대와의 채팅방 페이지로 넘어갑니다.</li>

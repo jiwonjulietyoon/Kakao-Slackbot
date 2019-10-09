@@ -17,7 +17,15 @@
     
     <div class="Container">
       <div class="bg"></div>
-      <img :src="url" alt="">
+      <div class="imgContainer">
+        <img :src="url" alt="">
+      </div>
+    </div>
+
+    <div class="btnBox">
+      <div class="btn zoomIn" title="Zoom In">+</div>
+      <div class="btn zoonOut" title="Zoom Out">-</div>
+      <div class="btn rotate" title="Rotate">R</div>
     </div>
     
   </div>
@@ -33,7 +41,16 @@ export default {
   },
   data: () => ({
     windowBtnHover: false,
+    imgRotate: 0,
+    imgScale: 1,
   }),
+  computed: {
+    imgTransformStyle() {
+      return {
+
+      }
+    }
+  },
   methods: {
     closeDialog() {
       this.$store.dispatch("setFullSizeImgDialog", false);
@@ -47,7 +64,7 @@ export default {
 
 .dialogOuter {
   width: 100%;
-  height: 500px;
+  height: 550px;
   background: white;
   overflow: hidden;
 }
@@ -57,10 +74,10 @@ export default {
 }
 .Container {
   width: 100%;
-  height: calc(100% - 22px);
+  height: calc(100% - 67px);
   position: relative;
 }
-.bg, img {
+.bg, img, .imgContainer {
   width: 100%; height: 100%;
   position: absolute;
   top: 0; left: 0;
@@ -70,6 +87,22 @@ export default {
 }
 img {
   object-fit: contain;
+}
+
+.btnBox {
+  width: 100%;
+  height: 45px;
+  background: rgb(55, 55, 55);
+  .btn {
+    float: left;
+    width: 45px;
+    height: 45px;
+    color: rgb(143, 143, 143);
+    text-align: center;
+    font-size: 1.7em;
+    @include disable-user-select;
+    cursor: pointer;
+  }
 }
 
 </style>
