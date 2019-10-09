@@ -22,6 +22,17 @@ const state = {
       replyMsg: "🐩🐾",
     },
     {
+      id: "cheolmin",
+      name: "Cheolmin Lee",
+      msg: "autumn sky",
+      img: "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fcheolmin_bd_img.png?alt=media&token=3bb1dde6-e44d-411b-9f67-bee5675029e8",
+      bgImg: "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fcheolmin_bg_img.png?alt=media&token=235ce705-fd56-4a13-adb4-32d93b2a0ca2",
+      github: "AutumnSky92",
+      website: "github.com/AutumnSky92",
+      initialMsg: "안녕하세요, 저는 마음속에 고양이를 키우고 있습니다.",
+      replyMsg: "🐈",
+    },
+    {
       id: "hyeonbin",
       name: "Hyeonbin Park",
       msg: "현빈정점",
@@ -53,17 +64,6 @@ const state = {
       website: "github.com/zooo1",
       initialMsg: "안녕하세요. 궁금한 것이 있으면 marulover7@gmail.com 으로 문의 주세요. 😘",
       replyMsg: "🐱😻",
-    },
-    {
-      id: "cheolmin",
-      name: "Cheolmin Lee",
-      msg: "autumn sky",
-      img: "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fcheolmin_bd_img.png?alt=media&token=3bb1dde6-e44d-411b-9f67-bee5675029e8",
-      bgImg: "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fcheolmin_bg_img.png?alt=media&token=235ce705-fd56-4a13-adb4-32d93b2a0ca2",
-      github: "AutumnSky92",
-      website: "github.com/AutumnSky92",
-      initialMsg: "안녕하세요, 저는 마음속에 고양이를 키우고 있습니다.",
-      replyMsg: "🐈",
     },
   ]
 
