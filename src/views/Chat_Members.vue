@@ -17,10 +17,10 @@
       </div>
 
       <div class="infoBox">
-        <img class="botImg" :src="profImg" alt="">
+        <img class="botImg" :src="member.img" alt="">
         <div class="botText">
           <div class="top">
-            <div class="username left">{{name}}</div>
+            <div class="username left">{{member.name}}</div>
             <div class="scale right"></div>
           </div>
           <div class="bottom">
@@ -49,7 +49,7 @@
           :class="c.slackbot ? 'botMessage' : 'userMessage'"
         >
           <div class="profImg">
-            <img :src="profImg">
+            <img :src="member.img">
           </div>
           <div class="msgContent">
             <div>{{c.message}}</div>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from "vuex";
 
 export default {
   name: "Chat_Members",
@@ -94,50 +94,18 @@ export default {
     conversations: [],
   }),
   computed: {
+    ...mapGetters(["members"]),
     valid() {
       return this.message ? true : false
     },
-    member() {
+    currentMember() {
       return this.$route.fullPath.slice(6, )
     },
-    name() {
-      let name = ""
-      if (this.member === "changmo") {
-        name = "Changmo Kang"
-      }
-      else if (this.member === "hyeonbin") {
-        name = "Hyeonbin Park"
-      }
-      else if (this.member === "jiwon") {
-        name = "Jiwon Yoon"
-      }
-      else if (this.member === "joowon") {
-        name = "Joowon Lee"
-      }
-      else if (this.member === "cheolmin") {
-        name = "Cheolmin Lee"
-      }
-      return name
+    member() {
+      return this.members.find(m => {
+        return this.currentMember === m.id
+      })
     },
-    profImg() {
-      let img = ""
-      if (this.member === "changmo") {
-        img = "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fchangmo_prof_img.png?alt=media&token=9f883679-efa4-475b-9dfe-471569fa9ca9"
-      }
-      else if (this.member === "hyeonbin") {
-        img = "https://avatars0.githubusercontent.com/u/19828721?s=460&v=4"
-      }
-      else if (this.member === "jiwon") {
-        img = "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fjiwon_profile_img.png?alt=media&token=89419f1a-fb15-49c2-ac52-08d7cafe84f9"
-      }
-      else if (this.member === "joowon") {
-        img = "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fjoowon_prof_img.jpg?alt=media&token=f8538452-733c-48fc-a392-d5830716c5b2"
-      }
-      else if (this.member === "cheolmin") {
-        img = "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fcheolmin_bd_img.png?alt=media&token=3bb1dde6-e44d-411b-9f67-bee5675029e8"
-      }
-      return img
-    }
   },
   methods: {
     exitKakaoTalk() {
@@ -156,8 +124,8 @@ export default {
         this.conversations.push({
           created_at: now.getTime(),
           slackbot: true,
-          message: ":D",
-          username: "Member"
+          message: this.member.replyMsg,
+          username: this.member.id
         })
         this.message = "";
         this.scrollToEnd();
@@ -212,33 +180,17 @@ export default {
   },
   created() {
     let now = new Date();
-    const initial_message = {
+    this.conversations.push({
       created_at: now.getTime(),
       slackbot: true,
-      message: "",
-      username: this.member
-    }
-    if (this.member === "changmo") {
-      initial_message.message = "안녕하세요. SSAFY 1기 강창모입니다.";
-    }
-    else if (this.member === "hyeonbin") {
-      initial_message.message = "안녕하세요 제가 바로 현빈정점입니다.";
-    }
-    else if (this.member === "jiwon") {
-      initial_message.message = "안녕하세요? jiwonjulietyoon@gmail.com으로 연락주세요 :)";
-    }
-    else if (this.member === "joowon") {
-      initial_message.message = "안녕하세요. 궁금한 것이 있으면 marulover7@gmail.com 으로 문의 주세요. 😘";
-    }
-    else if (this.member === "cheolmin") {
-      initial_message.message = "안녕하세요, 저는 마음속에 고양이를 키우고 있습니다.";
-    }
-    this.conversations.push(initial_message)
+      message: this.member.initialMsg,
+      username: this.member.id
+    })
   },
   mounted() {
     this.scrollToEnd();
     const members = ["changmo", "hyeonbin", "jiwon", "joowon", "cheolmin"];
-    if (members.includes(this.member)) {
+    if (members.includes(this.currentMember)) {
       // pass
     }
     else {

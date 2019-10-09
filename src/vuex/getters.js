@@ -10,5 +10,6 @@ export default {
     return false;
   },
   adminProfImg: state => state.adminProfImg,
-  visitorProfImg: state => state.visitorProfImg
+  visitorProfImg: state => state.visitorProfImg,
+  members: state => state.members,
 };
