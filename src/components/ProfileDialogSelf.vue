@@ -1,7 +1,7 @@
 <template>
   <div class="dialogOuter">
     <section class="bgImg">
-      <img src="" alt="">
+      <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fkakao-default-bg.png?alt=media&token=930bb1f3-da7f-41d7-a35e-ceffcaf1702b" alt="">
       <div class="layer"></div>
       <div class="msg">{{myProfileMsg}}</div>
     </section>
