@@ -139,11 +139,6 @@ export default {
       return img
     }
   },
-  watch: {
-    conversations() {
-      this.scrollToBottom();
-    },
-  },
   methods: {
     exitKakaoTalk() {
       this.$router.replace('/home');

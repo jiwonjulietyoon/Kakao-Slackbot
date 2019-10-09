@@ -108,11 +108,6 @@ export default {
       return this.message ? true : false
     }
   },
-  watch: {
-    conversations() {
-      this.scrollToBottom();
-    },
-  },
   methods: {
     exitKakaoTalk() {
       this.$router.replace('/home');
