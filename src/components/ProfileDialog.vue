@@ -52,7 +52,12 @@ export default {
       return this.$emit("child", false);
     },
     enterChatroomMembers(name) {
-      this.$router.replace(`/chat/${name}`)
+      if (this.$route.path === `/chat/${name}`) {
+        this.closeDialog();
+      }
+      else {
+        this.$router.replace(`/chat/${name}`);
+      }
     },
   }
 }

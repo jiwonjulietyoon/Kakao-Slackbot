@@ -49,8 +49,16 @@ export default {
     }
   },
   methods: {
+    closeDialog() {
+      return this.$emit("child", false);
+    },
     enterChatroomSelf() {
-      this.$router.replace('/chat/self')
+      if (this.$route.path === '/chat/self') {
+        this.closeDialog();
+      }
+      else {
+        this.$router.replace('/chat/self');
+      }
     },
   }
 }

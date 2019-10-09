@@ -42,8 +42,16 @@ export default {
     }
   },
   methods: {
+    closeDialog() {
+      return this.$emit("child", false);
+    },
     enterChatroomSlackbot() {
-      this.$router.replace('/chat/slackbot')
+      if (this.$route.path === '/chat/slackbot') {
+        this.closeDialog();
+      }
+      else {
+        this.$router.replace('/chat/slackbot');
+      }
     },
   }
 }

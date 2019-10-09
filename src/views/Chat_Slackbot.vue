@@ -17,7 +17,7 @@
       </div>
 
       <div class="infoBox">
-        <img class="botImg" src="@/assets/slack-icon.png" alt="">
+        <img class="botImg" src="@/assets/slack-icon.png" alt="" @click.stop="profileDialog = true">
         <div class="botText">
           <div class="top">
             <div class="username left">Slack Chatbot</div>
@@ -49,7 +49,7 @@
           :class="c.slackbot ? 'botMessage' : 'userMessage'"
         >
           <div class="profImg">
-            <img src="@/assets/slack-icon.png">
+            <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
           </div>
           <div class="msgContent">
             <div>{{c.message}}</div>
@@ -81,20 +81,31 @@
         <button @click.prevent="sendMsgAdmin" :class="{'hidden': !isAdmin}" :disabled="!valid">Send</button>
       </div>
     </div>
+
+    <!-- Profile Dialog for Slackbot -->
+    <v-dialog v-model="profileDialog" class="profileDialog" width="300">
+      <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />
+    </v-dialog>
+
   </div>
 </template>
 
 <script>
 import firestore from "@/firebase/firebase";
 import { mapGetters } from "vuex";
+import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
 
 export default {
   name: "Chat_Slackbot",
+  components: {
+    ProfileDialogSlackbot
+  },
   data() {
     return {
       windowBtnHover: false,
       message: "",
       conversations: [],
+      profileDialog: false,
     }
   },
   computed: {
@@ -195,7 +206,10 @@ export default {
         var elem = this.$el.querySelector('#scroll')
         elem.scrollTop = elem.scrollHeight
       })
-    }
+    },
+    parents(dialog) {
+      this.profileDialog = dialog;
+    },
   },
   created() {
     firestore.collection('conversations').orderBy("created_at")

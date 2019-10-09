@@ -17,7 +17,7 @@
       </div>
 
       <div class="infoBox">
-        <img class="botImg" :src="myProfileImg" alt="">
+        <img class="botImg" :src="myProfileImg" alt="" @click.stop="profileDialog = true">
         <div class="botText">
           <div class="top">
             <div class="username left">{{myProfileUsername}}</div>
@@ -80,19 +80,30 @@
         <button @click.prevent="sendMsg" :disabled="!valid">Send</button>
       </div>
     </div>
+
+    <!-- Profile Dialog for Self (Currently Logged In User) -->
+    <v-dialog v-model="profileDialog" class="profileDialog" width="300">
+      <ProfileDialogSelf @child="parents" :dialog="profileDialog" />
+    </v-dialog>
+
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import ProfileDialogSelf from "@/components/ProfileDialogSelf.vue";
 
 export default {
   name: "Chat_Self",
+  components: {
+    ProfileDialogSelf
+  },
   data() {
     return {
       windowBtnHover: false,
       message: "",
       conversations: [],
+      profileDialog: false,
     }
   },
   computed: {
@@ -171,7 +182,10 @@ export default {
         var elem = this.$el.querySelector('#scroll')
         elem.scrollTop = elem.scrollHeight
       })
-    }
+    },
+    parents(dialog) {
+      this.profileDialog = dialog;
+    },
   },
   mounted() {
     this.scrollToEnd();

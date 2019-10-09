@@ -17,7 +17,7 @@
       </div>
 
       <div class="infoBox">
-        <img class="botImg" :src="member.img" alt="">
+        <img class="botImg" :src="member.img" alt="" @click.stop="profileDialog = true">
         <div class="botText">
           <div class="top">
             <div class="username left">{{member.name}}</div>
@@ -49,7 +49,7 @@
           :class="c.slackbot ? 'botMessage' : 'userMessage'"
         >
           <div class="profImg">
-            <img :src="member.img">
+            <img :src="member.img" @click.stop="profileDialog = true">
           </div>
           <div class="msgContent">
             <div>{{c.message}}</div>
@@ -80,18 +80,29 @@
         <button @click.prevent="sendMsg" :disabled="!valid">Send</button>
       </div>
     </div>
+
+    <!-- Profile Dialog -->
+    <v-dialog v-model="profileDialog" class="profileDialog" width="300">
+      <ProfileDialog @child="parents" :dialog="profileDialog" :member="member" />
+    </v-dialog>
+
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import ProfileDialog from "@/components/ProfileDialog.vue";
 
 export default {
   name: "Chat_Members",
+  components: {
+    ProfileDialog
+  },
   data: () => ({
     windowBtnHover: false,
     message: "",
     conversations: [],
+    profileDialog: false,
   }),
   computed: {
     ...mapGetters(["members"]),
@@ -176,7 +187,10 @@ export default {
         var elem = this.$el.querySelector('#scroll')
         elem.scrollTop = elem.scrollHeight
       })
-    }
+    },
+    parents(dialog) {
+      this.profileDialog = dialog;
+    },
   },
   created() {
     let now = new Date();
