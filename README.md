@@ -12,7 +12,7 @@
 
 ## 프로젝트 개요
 
-- 팀원: [강창모](<https://github.com/ChangmoKang>), [박현빈](<https://github.com/sksms17456>), [윤지원](<https://github.com/jiwonjulietyoon>), [이주원](<https://github.com/zooo1>), [이철민](<https://github.com/AutumnSky92)
+- 팀원: [강창모](<https://github.com/ChangmoKang>), [박현빈](<https://github.com/sksms17456>), [윤지원](<https://github.com/jiwonjulietyoon>), [이주원](<https://github.com/zooo1>), [이철민](<https://github.com/AutumnSky92>)
 
 - 기간: 2019. 8. 19 ~ 2019. 10. 11
 - 기술 스택:
@@ -27,13 +27,13 @@
 
 - Slack과 Firebase 연동에 대한 상세 안내는 [이 포스트](<https://github.com/jiwonjulietyoon/FrontEnd_Notes/blob/master/Vue_Slack_Firestore_Integration.md>)를 참고해주세요.
 
-
+<br>
 
 ## 주요 페이지 및 기능
 
 웹사이트 클릭 후 [Readme.md](https://kakao-slackbot.web.app/readme) 파일 내용을 확인해주세요.
 
-
+<br>
 
 ============================================
 
