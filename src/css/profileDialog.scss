@@ -20,6 +20,7 @@ section.bgImg {
     position: absolute;
     top: 0; left: 0;
     background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
   }
   & > .msg {
     width: 100%;
@@ -33,6 +34,7 @@ section.bgImg {
     font-size: 1.3em;
     white-space: pre-wrap;
     @include disable-user-select;
+    pointer-events: none;
   }
 }
 section.profInfo {

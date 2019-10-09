@@ -8,8 +8,6 @@ import firestore from "@/firebase/firebase";
 export default {
   setUser({ commit }, payload) {
     // 로컬 로그인 후 유저 정보 세팅
-    console.log('actions.js setuser', payload);
-    console.log(payload.user.uid, payload.user.email);
     commit("setUser", {
       id: payload.user.uid,
       email: payload.user.email
@@ -20,9 +18,14 @@ export default {
       id: payload.uid,
       email: payload.email
     })
-    console.log('setuserautosignin')
   },
   setUserNull({commit}, payload) {
     commit("setUser", null);
-  }
+  },
+  setFullSizeImgDialog({commit}, payload) {
+    commit("setFullSizeImgDialog", payload);
+  },
+  setFullSizeImgURL({commit}, payload) {
+    commit("setFullSizeImgURL", payload);
+  },
 }

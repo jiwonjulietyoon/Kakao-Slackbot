@@ -12,4 +12,6 @@ export default {
   adminProfImg: state => state.adminProfImg,
   visitorProfImg: state => state.visitorProfImg,
   members: state => state.members,
+  fullSizeImgDialog: state => state.fullSizeImgDialog,
+  fullSizeImgURL: state => state.fullSizeImgURL,
 };

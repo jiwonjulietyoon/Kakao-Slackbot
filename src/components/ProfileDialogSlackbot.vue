@@ -17,7 +17,7 @@
       </div>
     </section>
     <div class="profImg">
-      <img src="@/assets/slack-icon.png" alt="">
+      <img src="@/assets/slack-icon.png" alt="" @click.stop="openImgFullSize('https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fslack-icon.png?alt=media&token=47b6b304-164a-4161-bc24-c6f66963868e')">
     </div>
   </div>
 </template>
@@ -53,6 +53,10 @@ export default {
         this.$router.replace('/chat/slackbot');
       }
     },
+    openImgFullSize(imgURL) {
+      this.$store.dispatch("setFullSizeImgURL", imgURL);
+      this.$store.dispatch("setFullSizeImgDialog", true);
+    }
   }
 }
 </script>

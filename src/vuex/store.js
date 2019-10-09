@@ -7,6 +7,8 @@ Vue.use(Vuex)
 
 const state = {
   user: null,
+  fullSizeImgDialog: false,
+  fullSizeImgURL: "",
   adminProfImg: "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fadmin_prof.png?alt=media&token=8bd8a771-3efb-4e87-a4fd-8dc1ae2f6a91",
   visitorProfImg: "https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2Fvisitor_prof.png?alt=media&token=271e5224-6c3a-49b3-a980-2410e1db7146",
   members: [
@@ -66,7 +68,6 @@ const state = {
       replyMsg: "🐱😻",
     },
   ]
-
 }
 
 export default new Vuex.Store({
@@ -76,6 +77,12 @@ export default new Vuex.Store({
   mutations: {
     setUser(state, payload) {
       state.user = payload;
+    },
+    setFullSizeImgDialog(state, payload) {
+      state.fullSizeImgDialog = payload;
+    },
+    setFullSizeImgURL(state, payload) {
+      state.fullSizeImgURL = payload;
     }
   },
 })

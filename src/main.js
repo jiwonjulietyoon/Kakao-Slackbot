@@ -14,9 +14,6 @@ new Vue({
   created() {
     firebaseAuth.onAuthStateChanged(user => {
       if (user) {
-        // this.$store.dispatch("autoSignIn", user);
-        console.log('autosignin user!');
-        console.log(user.email, user.uid)
         this.$store.dispatch("setUserAutoSignin", {
           id: user.uid,
           email: user.email

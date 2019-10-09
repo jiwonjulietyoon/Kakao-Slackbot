@@ -1,7 +1,7 @@
 <template>
   <div class="dialogOuter">
     <section class="bgImg">
-      <img :src="member.bgImg" alt="">
+      <img :src="member.bgImg" alt="" @click.stop="openImgFullSize(member.bgImg)">
       <div class="layer"></div>
       <div class="msg">{{member.msg}}</div>
     </section>
@@ -34,7 +34,7 @@
       </div>
     </section>
     <div class="profImg">
-      <img :src="member.img" alt="">
+      <img :src="member.img" alt="" @click.stop="openImgFullSize(member.img)">
     </div>
   </div>
 </template>
@@ -59,6 +59,10 @@ export default {
         this.$router.replace(`/chat/${name}`);
       }
     },
+    openImgFullSize(imgURL) {
+      this.$store.dispatch("setFullSizeImgURL", imgURL);
+      this.$store.dispatch("setFullSizeImgDialog", true);
+    }
   }
 }
 </script>

@@ -17,7 +17,7 @@
       </div>
     </section>
     <div class="profImg">
-      <img :src="myProfileImg" alt="">
+      <img :src="myProfileImg" alt="" @click.stop="openImgFullSize(myProfileImg)">
     </div>
   </div>
 </template>
@@ -60,6 +60,10 @@ export default {
         this.$router.replace('/chat/self');
       }
     },
+    openImgFullSize(imgURL) {
+      this.$store.dispatch("setFullSizeImgURL", imgURL);
+      this.$store.dispatch("setFullSizeImgDialog", true);
+    }
   }
 }
 </script>
