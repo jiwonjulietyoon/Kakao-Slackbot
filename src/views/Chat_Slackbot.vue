@@ -92,6 +92,7 @@
 
 <script>
 import firestore from "@/firebase/firebase";
+import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
 
@@ -122,10 +123,9 @@ export default {
     sendMsgAdmin() {
       const trimmedMsg = this.message.replace(/\s+/g, '');
       if (trimmedMsg) {
-        let now = new Date();
         firestore.collection('conversations')
           .add({
-            created_at: now.getTime(),
+            created_at: firebase.firestore.FieldValue.serverTimestamp(),
             slackbot: false,
             message: this.message,
             username: "Admin"
@@ -168,42 +168,35 @@ export default {
       }
     },
     full_date(c) {
+      let date = new Date();
       if (c.created_at) {
-        const date = new Date(c.created_at);
-        return String(date).split("GMT")[0];
+        date = new Date(c.created_at);
       }
-      else {
-        const date = new Date();
-        return String(date).split("GMT")[0];
-      }
+      return String(date).split("GMT")[0];
     },
     get_time(c) {
+      let date = new Date();
       if (c.created_at) {
-        const date = new Date(c.created_at);
-        let h = date.getHours();
-        let m = date.getMinutes();
-        let ampm = "AM";
-        if (h === 0) {
-          h = 12;
-        }
-        else if (h > 12) {
-          h -= 12;
-          ampm = "PM";
-        }
-        if (m < 10) {
-          m = '0'+m;
-        }
-        return `${h}:${m} ${ampm}`
+        date = new Date(c.created_at);
       }
-      else {
-        const date = new Date();
-        return `${date.getHours()}:${date.getMinutes()}`
+      let h = date.getHours();
+      let m = date.getMinutes();
+      let ampm = "AM";
+      if (h === 0) {
+        h = 12;
       }
-      
+      else if (h > 12) {
+        h -= 12;
+        ampm = "PM";
+      }
+      if (m < 10) {
+        m = '0'+m;
+      }
+      return `${h}:${m} ${ampm}`
     },
     scrollToEnd () {
       this.$nextTick(() => {
-        var elem = this.$el.querySelector('#scroll')
+        const elem = this.$el.querySelector('#scroll')
         elem.scrollTop = elem.scrollHeight
       })
     },
@@ -214,14 +207,15 @@ export default {
   created() {
     firestore.collection('conversations').orderBy("created_at")
       .onSnapshot(snapshot => {
-        let changes = snapshot.docChanges();
-        changes.forEach(change => {
-          if (change.type === "added") {
-            this.conversations.push(change.doc.data());
-            this.scrollToEnd();
-          }
-        })
-      });
+        this.conversations = snapshot.docs.map(doc => {
+          let data = doc.data()
+          data.created_at !== null 
+            ? data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
+            : undefined
+          return data
+        });
+      this.scrollToEnd()
+      })
   },
   mounted() {
     this.scrollToEnd();
