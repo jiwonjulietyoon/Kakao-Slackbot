@@ -44,7 +44,7 @@
     </div>
     
     <div class="messageContainer scrollable" id="scroll">
-      <div v-for="c in conversations" :key="c.id">
+      <div v-for="c in conversations" :key="c.id" class="messageItem">
         <div class="message" 
           :class="c.slackbot ? 'botMessage' : 'userMessage'"
         >
@@ -59,6 +59,7 @@
               :title="full_date(c)"
             >
               {{get_time(c)}}
+              <span class="unread">1</span>
             </div>
           </div>
         </div>
@@ -129,12 +130,25 @@ export default {
             slackbot: false,
             message: this.message,
             username: "Admin"
+          })
+          .then(() => {
+            this.displayUnread();
           });
         firestore.collection('questions')
           .add({
             question: this.message
           });
         this.message = "";
+      }
+    },
+    displayUnread() {
+      let lastMsg = document.querySelector('.messageItem:last-child .msgTime span');
+      if (lastMsg) {
+        lastMsg.classList.add('display');
+        console.log(lastMsg.className)
+        setTimeout(function() {
+          lastMsg.classList.remove('display');
+        }, 4000);
       }
     },
     sendMsgVisitor() {
@@ -208,15 +222,18 @@ export default {
   created() {
     firestore.collection('conversations').orderBy("created_at")
       .onSnapshot(snapshot => {
-        this.conversations = snapshot.docs.map(doc => {
-          let data = doc.data()
-          data.created_at !== null 
-            ? data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
-            : undefined
-          return data
-        });
-        this.scrollToEnd();
-      })
+        let changes = snapshot.docChanges();
+        changes.forEach(change => {
+          if (change.type === "added") {
+            let data = change.doc.data()
+            if (data.created_at !== null) {
+              data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
+            }
+            this.conversations.push(data);
+            this.scrollToEnd();
+          }
+        })
+      });
   },
   mounted() {
     this.scrollToEnd();

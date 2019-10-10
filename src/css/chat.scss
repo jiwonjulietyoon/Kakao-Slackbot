@@ -161,6 +161,9 @@
         right: calc(100% - 7px);
       }
     }
+    .unread {
+      display: none;
+    }
   }
   &.userMessage {
     flex-direction: row-reverse;
@@ -168,24 +171,35 @@
       display: none;
     }
     .msgContent {
-      background: #FFEB33;
+      background: $kakao-yellow;
       &::after {
-        border-top: 7px solid #FFEB33;
+        border-top: 7px solid $kakao-yellow;
         left: calc(100% - 7px);
       }
     }
     .msgTime > div {
       text-align: right;
+      .unread {
+        color: $kakao-yellow;
+        position: absolute;
+        bottom: 80%;
+        right: 0;
+        font-size: 1em;
+        display: none;
+        &.display {
+          display: initial;
+        }
+      }
     }
   }
   .msgTime {
-    font-size: 0.7em;
+    font-size: 0.6em;
     position: relative;
     width: 50px;
     & > div {
       width: 100%;
       position: absolute;
-      bottom: 5px;
+      bottom: 2px;
     }
   }
 }
