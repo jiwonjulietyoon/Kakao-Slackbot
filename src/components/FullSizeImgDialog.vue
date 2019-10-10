@@ -60,6 +60,7 @@ export default {
   methods: {
     closeDialog() {
       this.$store.dispatch("setFullSizeImgDialog", false);
+      this.$store.dispatch("setFullSizeImgURL", "");
       this.reset();
     },
     reset() {
