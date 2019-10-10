@@ -15,7 +15,6 @@
           <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
         </div>
       </div>
-
       <div class="infoBox">
         <img class="botImg" src="@/assets/slack-icon.png" alt="" @click.stop="profileDialog = true">
         <div class="botText">
@@ -44,7 +43,7 @@
     </div>
     
     <div class="messageContainer scrollable" id="scroll">
-      <div v-for="c in conversations" :key="c.id" class="messageItem">
+      <div v-for="(c,idx) in conversations" :key="idx" class="messageItem">
         <div class="message" 
           :class="c.slackbot ? 'botMessage' : 'userMessage'"
         >
@@ -63,9 +62,25 @@
             </div>
           </div>
         </div>
+                
+        <div class="message botMessage"
+          v-if="idx == conversations.length - 1 && c.unread == false"
+        >
+          <div class="profImg">
+            <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
+          </div>
+          <v-btn text fab x-small id="thinking" class="elevation-0" :loading="true"></v-btn>
+          <div class="msgTime">
+            <div
+              :title="full_date(c)"
+            >
+              {{get_time(c)}}
+              <span class="unread" :class="{'display': c.unread}">1</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
     <div class="attach">
       <i class="material-icons-round icons left emoji">tag_faces</i>
       <i class="material-icons-round icons left clip">attachment</i>
@@ -82,21 +97,17 @@
         <button @click.prevent="sendMsgAdmin" :class="{'hidden': !isAdmin}" :disabled="!valid">Send</button>
       </div>
     </div>
-
     <!-- Profile Dialog for Slackbot -->
     <v-dialog v-model="profileDialog" class="profileDialog" width="300">
       <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />
     </v-dialog>
-
   </div>
 </template>
-
 <script>
 import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
-
 export default {
   name: "Chat_Slackbot",
   components: {
@@ -239,7 +250,7 @@ export default {
                     new: false
                   })
                   this.scrollToEnd();
-                }, 1500);
+                }, 2000);
               } else {
                 this.conversations.push(data);
               }
@@ -254,9 +265,7 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 @import "@/css/style.scss";
 @import "@/css/chat.scss";
-
 </style>
