@@ -99,7 +99,6 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(credential => {
           const user = credential.user;
-          console.log(user);
           this.$store.dispatch("setUser", {user});
         })
         .then(() => {
@@ -108,9 +107,6 @@ export default {
           this.loginClick()
         })
         .catch(error => {
-          console.log(error);
-          console.log('!!!!');
-          // this.password = "";
           this.loginErrorMsg = error.message;
           this.loginError = true
           this.loginClick()

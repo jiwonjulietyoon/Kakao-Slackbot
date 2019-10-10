@@ -154,6 +154,7 @@ export default {
           username: "Slackbot"
         })
         this.message = "";
+        this.scrollToEnd();
       }
     },
     handler(e) {
@@ -214,7 +215,7 @@ export default {
             : undefined
           return data
         });
-      this.scrollToEnd()
+        this.scrollToEnd();
       })
   },
   mounted() {

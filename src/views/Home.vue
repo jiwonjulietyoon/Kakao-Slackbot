@@ -145,9 +145,12 @@ export default {
       "특화 프로젝트: AI 챗봇 구현",
       "프로젝트 기간: 2019.8.19 ~ 2019.10.11",
       "팀원: 강창모 박현빈 윤지원 이주원 이철민",
-      "카톡 연동 (X); 카톡 UI만 클론 코딩 (O)",
-      "Firestore-Slack 연동은 맞음 ㅎㅎ",
-      "Python, Flask, Slack, Firebase, Vue"
+      "카톡 연동 (X) 카톡 UI만 클론 코딩 (O)",
+      "Firestore-Slack 연동은 맞음",
+      "Python, Flask, Slack, Firebase, Vue",
+      "YouTube '현빈정점' 검색 ㄱㄱ",
+      "구독과 좋아요 부탁드립니다~",
+      "구독자 이벤트 진행 예정 :D",
     ],
     realtimeInterval: ""
   }),
@@ -221,6 +224,13 @@ export default {
     //     target.classList.add('fade');
     //   }, 5000);
     // }
+  },
+  created() {
+    firebaseAuth.onAuthStateChanged(user => {
+      if (!user) {
+        this.$router.go();
+      }
+    });
   },
   mounted() {
     let i = 1;
