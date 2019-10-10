@@ -59,7 +59,7 @@
               :title="full_date(c)"
             >
               {{get_time(c)}}
-              <span class="unread">1</span>
+              <span class="unread" :class="{'display': c.unread}">1</span>
             </div>
           </div>
         </div>
@@ -129,11 +129,13 @@ export default {
             created_at: firebase.firestore.FieldValue.serverTimestamp(),
             slackbot: false,
             message: this.message,
-            username: "Admin"
+            username: "Admin",
+            unread: true,
+            new: true
           })
-          .then(() => {
-            this.displayUnread();
-          });
+          // .then(() => {
+          //   this.displayUnread();
+          // });
         firestore.collection('questions')
           .add({
             question: this.message
@@ -141,16 +143,16 @@ export default {
         this.message = "";
       }
     },
-    displayUnread() {
-      let lastMsg = document.querySelector('.messageItem:last-child .msgTime span');
-      if (lastMsg) {
-        lastMsg.classList.add('display');
-        console.log(lastMsg.className)
-        setTimeout(function() {
-          lastMsg.classList.remove('display');
-        }, 4000);
-      }
-    },
+    // displayUnread() {
+    //   let lastMsg = document.querySelector('.messageItem:last-child .msgTime span');
+    //   if (lastMsg) {
+    //     lastMsg.classList.add('display');
+    //     console.log(lastMsg.className)
+    //     setTimeout(function() {
+    //       lastMsg.classList.remove('display');
+    //     }, 4000);
+    //   }
+    // },
     sendMsgVisitor() {
       const trimmedMsg = this.message.replace(/\s+/g, '');
       if (trimmedMsg) {
@@ -226,10 +228,35 @@ export default {
         changes.forEach(change => {
           if (change.type === "added") {
             let data = change.doc.data()
+            data.id = change.doc.id
+            if (data.slackbot) {
+              this.conversations.forEach(doc => {
+                firestore.collection('conversations').doc(doc.id).update({
+                  unread: false,
+                  new: false
+                })
+                doc.unread = false;
+                doc.new = false;
+              })
+            }
             if (data.created_at !== null) {
               data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
             }
-            this.conversations.push(data);
+            if (data.new === false) {
+              this.conversations.push(data);
+            } else {
+              if (data.slackbot) {
+                setTimeout(() => {
+                  this.conversations.push(data);
+                  firestore.collection('conversations').doc(data.id).update({
+                    new: false
+                  })
+                  this.scrollToEnd();
+                }, 1500);
+              } else {
+                this.conversations.push(data);
+              }
+            }
             this.scrollToEnd();
           }
         })
