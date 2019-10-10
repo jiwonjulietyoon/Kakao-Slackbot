@@ -29,7 +29,7 @@
             <input type="password" v-model="password" @keydown.enter.prevent="login" class="input password" placeholder="Password (4-32 characters)">
           </div>
 
-          <button @click.prevent="login" class="loginBtn" :class="{'loginError': loginError}" :disabled="!valid">Log in</button>
+          <v-btn @click.prevent="login" class="loginBtn" :class="{'loginError': loginError}" :disabled="!valid" :loading="spinner">Log in</v-btn>
         </v-form>
         <div class="rememberMe">
           <div class="checkBox">
@@ -65,7 +65,8 @@ export default {
       email: "",
       password: "",
       loginErrorMsg: "",
-      loginError: false
+      loginError: false,
+      spinner: false
     }
   },
   computed: {
@@ -94,6 +95,7 @@ export default {
       this.$router.replace('/');
     },
     login() {
+      this.loginClick()
       firebaseAuth
         .signInWithEmailAndPassword(this.email, this.password)
         .then(credential => {
@@ -104,6 +106,7 @@ export default {
         .then(() => {
           this.reset();
           this.$router.replace('/home');
+          this.loginClick()
         })
         .catch(error => {
           console.log(error);
@@ -111,11 +114,15 @@ export default {
           // this.password = "";
           this.loginErrorMsg = error.message;
           this.loginError = true
+          this.loginClick()
         });
     },
     reset() {
       this.email = "";
       this.password = "";
+    },
+    loginClick() {
+      this.spinner = !this.spinner
     }
   }
 }
@@ -189,29 +196,43 @@ export default {
     }
   }
   .loginBtn {
-    margin-top: 10px;
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-    background: $kakao-brown;
-    border-radius: 5px;
-    border: 1px solid $kakao-yellow-outline;
-    cursor: pointer;
-    color: rgb(205, 201, 200);
+    margin-top: 10px !important;
+    width: 100% !important;
+    height: 60px !important;
+    line-height: 60px !important;
+    text-align: center !important;
+    background: $kakao-brown !important;
+    border-radius: 5px !important;
+    border: 1px solid $kakao-yellow-outline !important;
+    cursor: pointer !important;
+    color: rgb(205, 201, 200) !important;
+    box-shadow: none !important;
+    text-transform: initial !important;
+    font-size: 1em !important;
+    letter-spacing: 0px !important;
     &:disabled {
-      background: $btn-disabled;
-      color: rgb(192, 192, 192);
-      cursor: initial;
+      background: $btn-disabled !important;
+      color: rgb(192, 192, 192) !important;
+      cursor: initial !important;
     }
     &:focus {
-      outline: none;
+      outline: none !important;
     }
     &.loginError {
-      background: $btn-disabled;
+      background: $btn-disabled !important;
     }
   }
 }
+
+.v-btn--disabled {
+  background: $btn-disabled !important;
+  color: rgb(192, 192, 192) !important;
+  cursor: initial !important;
+}
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  background: $btn-disabled !important;
+}
+
 .rememberMe {
   width: 100%;
   margin-top: 15px;
