@@ -133,9 +133,6 @@ export default {
             unread: true,
             new: true
           })
-          // .then(() => {
-          //   this.displayUnread();
-          // });
         firestore.collection('questions')
           .add({
             question: this.message
@@ -143,16 +140,6 @@ export default {
         this.message = "";
       }
     },
-    // displayUnread() {
-    //   let lastMsg = document.querySelector('.messageItem:last-child .msgTime span');
-    //   if (lastMsg) {
-    //     lastMsg.classList.add('display');
-    //     console.log(lastMsg.className)
-    //     setTimeout(function() {
-    //       lastMsg.classList.remove('display');
-    //     }, 4000);
-    //   }
-    // },
     sendMsgVisitor() {
       const trimmedMsg = this.message.replace(/\s+/g, '');
       if (trimmedMsg) {
