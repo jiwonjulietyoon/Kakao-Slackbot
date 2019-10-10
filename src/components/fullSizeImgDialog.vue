@@ -17,15 +17,21 @@
     
     <div class="Container">
       <div class="bg"></div>
-      <div class="imgContainer">
+      <div class="imgContainer" :style="imgTransformStyle">
         <img :src="url" alt="">
       </div>
     </div>
 
     <div class="btnBox">
-      <div class="btn zoomIn" title="Zoom In">+</div>
-      <div class="btn zoonOut" title="Zoom Out">-</div>
-      <div class="btn rotate" title="Rotate">R</div>
+      <div class="btn zoomIn" title="Zoom In" @click.stop="zoomIn">
+        <i class="material-icons-round">add</i>
+      </div>
+      <div class="btn zoomOut" title="Zoom Out" @click.stop="zoomOut">
+        <i class="material-icons-round">remove</i>
+      </div>
+      <div class="btn rotate" title="Rotate" @click.stop="rotate">
+        <i class="material-icons-round">replay</i>
+      </div>
     </div>
     
   </div>
@@ -47,15 +53,33 @@ export default {
   computed: {
     imgTransformStyle() {
       return {
-
+        transform: 'scale(' + this.imgScale + ') rotate(' + this.imgRotate + 'turn)'
       }
     }
   },
   methods: {
     closeDialog() {
       this.$store.dispatch("setFullSizeImgDialog", false);
+      this.reset();
+    },
+    reset() {
+      this.imgRotate = 0;
+      this.imgScale = 1;
+    },
+    zoomIn() {
+      if (this.imgScale < 2.0) {
+        this.imgScale += 0.1;
+      }
+    },
+    zoomOut() {
+      if (this.imgScale > 0.3) {
+        this.imgScale -= 0.1;
+      }
+    },
+    rotate() {
+      this.imgRotate += 0.25;
     }
-  }
+  },
 }
 </script>
 
@@ -76,6 +100,7 @@ export default {
   width: 100%;
   height: calc(100% - 67px);
   position: relative;
+  overflow: hidden;
 }
 .bg, img, .imgContainer {
   width: 100%; height: 100%;
@@ -102,6 +127,15 @@ img {
     font-size: 1.7em;
     @include disable-user-select;
     cursor: pointer;
+    position: relative;
+    i {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &:last-child {
+      transform: rotateY(180deg);
+    }
   }
 }
 
