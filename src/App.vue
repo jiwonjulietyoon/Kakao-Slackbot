@@ -16,9 +16,6 @@ export default {
   components: {
     FullSizeImgDialog
   },
-  data: () => ({
-    //
-  }),
   computed: {
     ...mapGetters(["fullSizeImgDialog", "fullSizeImgURL"]),
   },

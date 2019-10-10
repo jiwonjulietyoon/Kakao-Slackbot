@@ -1,5 +1,5 @@
 <template>
-  <div class="kakaoContainer">
+  <div class="kakaoContainer" v-if="member">
     <div class="botInfo">
       <!-- Mac Window Buttons -->
       <div class="btnBoxMac">
@@ -192,20 +192,16 @@ export default {
       this.profileDialog = dialog;
     },
   },
-  created() {
-    let now = new Date();
-    this.conversations.push({
-      created_at: now.getTime(),
-      slackbot: true,
-      message: this.member.initialMsg,
-      username: this.member.id
-    })
-  },
   mounted() {
-    this.scrollToEnd();
-    const members = ["changmo", "hyeonbin", "jiwon", "joowon", "cheolmin"];
-    if (members.includes(this.currentMember)) {
-      // pass
+    const membersName = ["changmo", "hyeonbin", "jiwon", "joowon", "cheolmin"];
+    if (membersName.includes(this.currentMember)) {
+      let now = new Date();
+      this.conversations.push({
+        created_at: now.getTime(),
+        slackbot: true,
+        message: this.member.initialMsg,
+        username: this.member.id
+      })
     }
     else {
       this.$router.replace('/home')
