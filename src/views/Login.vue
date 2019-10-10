@@ -141,7 +141,6 @@ export default {
 .main {
   width: 60%;
   height: 470px;
-  // border: 1px solid;
   position: absolute;
   top: 50%;
   left: 50%;
