@@ -163,6 +163,34 @@
     .unread {
       display: none;
     }
+    .msgTime > div > .feedbackBtnBox {
+      width: 35px;
+      height: 17px;
+      background: #FE4A4A;
+      position: absolute;
+      bottom: 100%;
+      border-radius: 5px;
+      & > .btn {
+        width: 50%;
+        height: 100%;
+        float: left;
+        position: relative;
+        cursor: pointer;
+        &:first-child {
+          border-right: 1px solid $btn-gray-hover;
+        }
+        i {
+          color: white;
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.3em;
+        }
+      }
+      &.hidden {
+        display: none;
+      }
+    }
   }
   &.userMessage {
     flex-direction: row-reverse;
@@ -188,6 +216,9 @@
         &.display {
           display: initial;
         }
+      }
+      & > .feedbackBtnBox {
+        display: none;
       }
     }
   }

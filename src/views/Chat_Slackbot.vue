@@ -59,6 +59,14 @@
             >
               {{get_time(c)}}
               <span class="unread" :class="{'display': c.unread}">1</span>
+              <div class="feedbackBtnBox" :class="{'hidden' : !isAdmin}">
+                <div class="btn">
+                  <i class="material-icons-round">check</i>
+                </div>
+                <div class="btn">
+                  <i class="material-icons-round">edit</i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
