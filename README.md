@@ -16,7 +16,7 @@
 
 - 기간: 2019. 8. 19 ~ 2019. 10. 11
 - 기술 스택:
-  - [챗봇] Python, Flask, Slack API, AWS EC2
+  - [챗봇] Python, Flask, Slack API, AWS EC2, KoNLPy, TensorFlow
   - [카카오톡 클론 웹사이트] Vue CLI, Sass (SCSS), Firebase (Authentication, Firestore, Hosting, Functions)
 
 <br>

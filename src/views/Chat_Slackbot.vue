@@ -97,6 +97,7 @@
         <button @click.prevent="sendMsgAdmin" :class="{'hidden': !isAdmin}" :disabled="!valid">Send</button>
       </div>
     </div>
+    
     <!-- Profile Dialog for Slackbot -->
     <v-dialog v-model="profileDialog" class="profileDialog" width="300">
       <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />

@@ -8,7 +8,7 @@
           <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
           <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
         </div>
-        <div class="btn minimize" style="opacity: 0;">
+        <div class="btn minimize" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
           <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
         </div>
         <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
