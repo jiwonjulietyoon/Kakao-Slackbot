@@ -134,22 +134,24 @@ export default {
       this.$router.replace('/home');
     },
     sendMsgAdmin() {
-      const trimmedMsg = this.message.replace(/\s+/g, '');
-      if (trimmedMsg) {
-        firestore.collection('conversations')
-          .add({
-            created_at: firebase.firestore.FieldValue.serverTimestamp(),
-            slackbot: false,
-            message: this.message,
-            username: "Admin",
-            unread: true,
-            new: true
-          })
-        firestore.collection('questions')
-          .add({
-            question: this.message
-          });
-        this.message = "";
+      if (this.isAdmin) {
+        const trimmedMsg = this.message.replace(/\s+/g, '');
+        if (trimmedMsg) {
+          firestore.collection('conversations')
+            .add({
+              created_at: firebase.firestore.FieldValue.serverTimestamp(),
+              slackbot: false,
+              message: this.message,
+              username: "Admin",
+              unread: true,
+              new: true
+            })
+          firestore.collection('questions')
+            .add({
+              question: this.message
+            });
+          this.message = "";
+        }
       }
     },
     sendMsgVisitor() {
