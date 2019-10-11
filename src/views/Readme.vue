@@ -38,7 +38,8 @@
           <br>
           
           <h2>챗봇 시연</h2>
-          <!-- 챗봇 대화 시연을 보여주는 gif 파일 -->
+          <img src="@/assets/kakao.gif" alt="" width=400 style="border: 1px solid rgb(210, 208, 207);">
+          <br>
           <br>
           <br>
 

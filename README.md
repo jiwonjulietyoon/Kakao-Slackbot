@@ -6,7 +6,9 @@
 
 프론트엔드는 Vue CLI로 카카오톡의 UI만 클론 코딩하였으며, 백엔드 및 배포는 Firebase를 사용하였습니다.
 
-(프로젝트 시연 gif 삽입할 것)
+![Slack-Kakao](./src/assets/slack-kakao.gif)
+
+<br>
 
 <br>
 
@@ -25,7 +27,7 @@
 
 ![Project Overview](https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/readme_contents%2Fproject_overview.png?alt=media&token=8b72c5af-9596-4415-9b7a-017a1b1cc0b6)
 
-- Slack과 Firebase 연동에 대한 상세 안내는 [이 포스트](<https://github.com/jiwonjulietyoon/FrontEnd_Notes/blob/master/Vue_Slack_Firestore_Integration.md>)를 참고해주세요.
+- Slack, Python/Flask, 및 Firebase 연동에 대한 상세 안내는 [이 포스트](<https://github.com/jiwonjulietyoon/FrontEnd_Notes/blob/master/Vue_Slack_Firestore_Integration.md>)를 참고해주세요.
 
 <br>
 
@@ -35,7 +37,35 @@
 
 <br>
 
-============================================
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+=======================================================================================
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
 
 <br>
 
