@@ -17,8 +17,8 @@
     
     <div class="Container">
       <div class="bg"></div>
-      <div class="imgContainer" :style="imgTransformStyle">
-        <img :src="url" alt="">
+      <div class="imgContainer" :style="imgTransformStyle" id="drag">
+        <img :src="url" alt="" draggable="false">
       </div>
     </div>
 
@@ -31,6 +31,9 @@
       </div>
       <div class="btn rotate" title="Rotate" @click.stop="rotate">
         <i class="material-icons-round">replay</i>
+      </div>
+      <div class="btn reset" title="Reset" @click.stop="reset">
+        <i class="material-icons-round">undo</i>
       </div>
     </div>
     
@@ -63,9 +66,15 @@ export default {
       this.$store.dispatch("setFullSizeImgURL", "");
       this.reset();
     },
+    resetPosition() {
+      const dragEl = document.getElementById('drag');
+      dragEl.style.top = 0;
+      dragEl.style.left = 0;
+    },
     reset() {
       this.imgRotate = 0;
       this.imgScale = 1;
+      this.resetPosition();
     },
     zoomIn() {
       if (this.imgScale < 2.0) {
@@ -76,11 +85,51 @@ export default {
       if (this.imgScale > 0.3) {
         this.imgScale -= 0.1;
       }
+      if (this.imgScale == 1) {
+        this.resetPosition();
+      }
     },
     rotate() {
       this.imgRotate += 0.25;
+      this.resetPosition();
+    },
+    dragImage(el) {
+      let p1 = 0, p2 = 0, p3 = 0, p4 = 0;
+      let self = this;
+      if (el) {
+        el.onmousedown = dragMouseDown;
+      }
+      function dragMouseDown(e) {
+        if (self.imgScale > 1) {
+          e = e || window.event;
+          e.preventDefault();
+          p3 = e.clientX;
+          p4 = e.clientY;
+          document.onmouseup = closeDragElement;
+          document.onmousemove = elementDrag;
+        }
+      }
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        p1 = p3 - e.clientX;
+        p2 = p4 - e.clientY;
+        p3 = e.clientX;
+        p4 = e.clientY;
+        el.style.top = (el.offsetTop - p2) + 'px';
+        el.style.left = (el.offsetLeft - p1) + 'px';
+        console.log(el.style.top, el.style.left);
+      }
+      function closeDragElement() {
+        console.log('closeDragElement');
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
     }
   },
+  mounted() {
+    this.dragImage(document.getElementById('drag'));
+  }
 }
 </script>
 
@@ -134,7 +183,7 @@ img {
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
     }
-    &:last-child {
+    &.rotate {
       transform: rotateY(180deg);
     }
   }
