@@ -6,8 +6,9 @@ exports.notifyNewQuestion = functions.firestore
     .onCreate((snap, context) => {
         const newValue = snap.data();
         const question = newValue.question;
+        const question_id = newValue.question_id;
         return request.post(
             "[Slack Webhook URL]",
-            {json: {text: `<@Bot_ID> ${question}`}}
+            {json: {text: `<@Bot_ID> ${question_id} ${question}`}}
         );
     });
