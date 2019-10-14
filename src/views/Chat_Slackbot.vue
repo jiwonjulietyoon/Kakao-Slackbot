@@ -28,6 +28,10 @@
               <span>2</span>
             </div>
             <i class="material-icons-round left document" @click="openFeedbackDialog">description</i>
+            <div class="feedbackToggle left" v-if="isAdmin">
+              <i class="material-icons-round" @click="feedbackMode=true" v-show="!feedbackMode">toggle_on</i>
+              <i class="material-icons-round" @click="feedbackMode=false" v-show="feedbackMode">toggle_off</i>
+            </div>
             <div class="icons right">
               <i class="material-icons-round menu">menu</i>
             </div>
@@ -75,7 +79,7 @@
             >
               {{get_time(c)}}
               <span class="unread" :class="{'display': c.unread}">1</span>
-              <div v-if='c.slackbot && !c.feedback'>
+              <div v-if='c.slackbot && !c.feedback && feedbackMode'>
                 <div v-if="c.isEdit" class="feedbackBtnBox1" :class="{'hidden' : !isAdmin}">
                   <!-- https://vuetifyjs.com/en/components/ratings#usage -->
                   <div class="btn" @click="report(c)">
@@ -169,6 +173,7 @@ export default {
       feedback: [],
       profileDialog: false,
       feedbackDialog: false,
+      feedbackMode: false
     }
   },
   computed: {
