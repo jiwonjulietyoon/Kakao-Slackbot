@@ -242,6 +242,7 @@ export default {
     background: white;
     border-radius: 5px;
     border: 2px solid $kakao-yellow-outline;
+    @include disable-user-select;
     i {
       font-size: 1.3em;
       color: $kakao-brown;
@@ -268,6 +269,7 @@ export default {
     line-height: 20px;
     position: relative;
     top: -5px;
+    @include disable-user-select;
   }
 }
 
