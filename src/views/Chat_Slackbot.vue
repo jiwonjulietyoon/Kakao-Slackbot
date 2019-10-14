@@ -27,7 +27,7 @@
               <i class="material-icons-round">person</i>
               <span>2</span>
             </div>
-            <i class="material-icons-round left document">description</i>
+            <i class="material-icons-round left document" @click="openFeedbackDialog">description</i>
             <div class="icons right">
               <i class="material-icons-round menu">menu</i>
             </div>
@@ -59,11 +59,11 @@
             <v-divider></v-divider>
             <v-sheet>
               <v-textarea
+                class="feedbackTextarea"
                 v-model="c.editMessage"
                 :auto-grow="true"
                 :outlined="true"
                 :clearable="true"
-                :loading="true"
                 :rows="2"
               >
               </v-textarea>
@@ -138,6 +138,14 @@
     <v-dialog v-model="profileDialog" class="profileDialog" width="300">
       <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />
     </v-dialog>
+
+    <!-- Feedback Dialog -->
+    <v-dialog v-model="feedbackDialog" width="400">
+      <FeedbackDialog @child="parentsFeedback" :feedback="feedback" />
+    </v-dialog>
+
+
+
   </div>
 </template>
 <script>
@@ -145,17 +153,22 @@ import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
+import FeedbackDialog from "@/components/FeedbackDialog.vue";
+
 export default {
   name: "Chat_Slackbot",
   components: {
-    ProfileDialogSlackbot
+    ProfileDialogSlackbot,
+    FeedbackDialog
   },
   data() {
     return {
       windowBtnHover: false,
       message: "",
       conversations: [],
+      feedback: [],
       profileDialog: false,
+      feedbackDialog: false,
     }
   },
   computed: {
@@ -188,6 +201,17 @@ export default {
       doc.message = doc.editMessage
       doc.feedback = true
       this.editTrigger(doc)
+    },
+    getFeedback() {
+      firestore.collection('feedback').orderBy('created_at', 'desc').get()
+      .then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          this.feedback.push({
+            ...doc.data()
+          });
+        });
+      })
+      .catch(err => console.log(err));
     },
     editTrigger(doc) {
       doc.isEdit = !doc.isEdit
@@ -288,6 +312,15 @@ export default {
     },
     parents(dialog) {
       this.profileDialog = dialog;
+    },
+    openFeedbackDialog() {
+      if (this.isAdmin) {
+        this.getFeedback();
+        this.feedbackDialog = true;
+      }
+    },
+    parentsFeedback(dialog) {
+      this.feedbackDialog = dialog;
     },
   },
   created() {
