@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
         next('/login');
       }
     }
-    if (to.fullPath.slice(0, 6) === '/chat/') {
+    else if (to.fullPath.slice(0, 6) === '/chat/') {
       if (!user) {
         next('/login');
       }

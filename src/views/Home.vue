@@ -46,7 +46,7 @@
         </div>
       </section>
 
-      <!-- RIGHT SIDE -->
+      <!-- RIGHT SIDE FRIENDS LIST -->
       <section class="friendsList">
         <!-- My Profile, Plus Friend, Friends -->
         <div class="Headline">Friends</div>
@@ -110,7 +110,9 @@
             </div>
           </div>
         </div>
+
       </section>
+
     </div>
   </div>
 </template>
@@ -534,4 +536,7 @@ section {
     }
   }
 }
+
+
+
 </style>

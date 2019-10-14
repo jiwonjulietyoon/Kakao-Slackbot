@@ -70,6 +70,27 @@
         transform: translateY(5.5px);
         @include disable-user-select;
       }
+      .feedbackToggle {
+        margin-left: 5px;
+        transform: translateY(5.5px);
+        width: 25px;
+        height: 15px;
+        position: relative;
+        i {
+          font-size: 1.2em;
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          color: $btn-gray2;
+          @include disable-user-select;
+          &:first-child {
+            color: $mac-red;
+          }
+          &:last-child {
+            color: $mac-green;
+          }
+        }
+      }
       .icons {
         width: 20px;
         height: 20px;
@@ -163,6 +184,65 @@
     .unread {
       display: none;
     }
+    .feedbackTextarea {
+      font-size: 0.9em;
+    }
+    .msgTime > div > div > .feedbackBtnBox1 {
+      width: 35px;
+      height: 17px;
+      background: green;
+      position: absolute;
+      bottom: 100%;
+      border-radius: 5px;
+      & > .btn {
+        width: 50%;
+        height: 100%;
+        float: left;
+        position: relative;
+        cursor: pointer;
+        &:first-child {
+          border-right: 1px solid $btn-gray-hover;
+        }
+        i {
+          color: white;
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.3em;
+        }
+      }
+      &.hidden {
+        display: none;
+      }
+    }
+    .msgTime > div > div > .feedbackBtnBox2 {
+      width: 35px;
+      height: 17px;
+      background: #FE4A4A;
+      position: absolute;
+      bottom: 100%;
+      border-radius: 5px;
+      & > .btn {
+        width: 50%;
+        height: 100%;
+        float: left;
+        position: relative;
+        cursor: pointer;
+        &:first-child {
+          border-right: 1px solid $btn-gray-hover;
+        }
+        i {
+          color: white;
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.3em;
+        }
+      }
+      &.hidden {
+        display: none;
+      }
+    }
   }
   &.userMessage {
     flex-direction: row-reverse;
@@ -188,6 +268,9 @@
         &.display {
           display: initial;
         }
+      }
+      & > .feedbackBtnBox {
+        display: none;
       }
     }
   }

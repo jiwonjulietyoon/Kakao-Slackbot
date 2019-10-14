@@ -27,7 +27,11 @@
               <i class="material-icons-round">person</i>
               <span>2</span>
             </div>
-            <i class="material-icons-round left document">description</i>
+            <i class="material-icons-round left document" @click="openFeedbackDialog">description</i>
+            <div class="feedbackToggle left" v-if="isAdmin">
+              <i class="material-icons-round" @click="feedbackMode=true" v-show="!feedbackMode">toggle_on</i>
+              <i class="material-icons-round" @click="feedbackMode=false" v-show="feedbackMode">toggle_off</i>
+            </div>
             <div class="icons right">
               <i class="material-icons-round menu">menu</i>
             </div>
@@ -50,8 +54,24 @@
           <div class="profImg">
             <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
           </div>
-          <div class="msgContent">
+          <div v-if="!c.isEdit" class="msgContent">
             <div>{{c.message}}</div>
+          </div>
+          <!-- https://vuetifyjs.com/en/components/text-fields#validation -->
+          <div v-else class="msgContent">
+            <div>{{c.message}}</div>
+            <v-divider></v-divider>
+            <v-sheet>
+              <v-textarea
+                class="feedbackTextarea"
+                v-model="c.editMessage"
+                :auto-grow="true"
+                :outlined="true"
+                :clearable="true"
+                :rows="2"
+              >
+              </v-textarea>
+            </v-sheet>
           </div>
           <div class="msgTime">
             <div
@@ -59,6 +79,26 @@
             >
               {{get_time(c)}}
               <span class="unread" :class="{'display': c.unread}">1</span>
+              <div v-if='c.slackbot && !c.feedback && feedbackMode'>
+                <div v-if="c.isEdit" class="feedbackBtnBox1" :class="{'hidden' : !isAdmin}">
+                  <!-- https://vuetifyjs.com/en/components/ratings#usage -->
+                  <div class="btn" @click="report(c)">
+                    <i class="material-icons-round">check</i>
+                  </div>
+                  <div class="btn" @click="editTrigger(c)">
+                    <i class="material-icons-round">cancel</i>
+                  </div>
+                </div>
+                <div v-else class="feedbackBtnBox2" :class="{'hidden' : !isAdmin}">
+                  <!-- https://vuetifyjs.com/en/components/ratings#usage -->
+                  <div class="btn" @click="cancelFeedback(c)">
+                    <i class="material-icons-round">check</i>
+                  </div>
+                  <div class="btn" @click="editTrigger(c)">
+                    <i class="material-icons-round">edit</i>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -102,6 +142,14 @@
     <v-dialog v-model="profileDialog" class="profileDialog" width="300">
       <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />
     </v-dialog>
+
+    <!-- Feedback Dialog -->
+    <v-dialog v-model="feedbackDialog" width="400">
+      <FeedbackDialog @child="parentsFeedback" :feedback="feedback" />
+    </v-dialog>
+
+
+
   </div>
 </template>
 <script>
@@ -109,17 +157,23 @@ import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
+import FeedbackDialog from "@/components/FeedbackDialog.vue";
+
 export default {
   name: "Chat_Slackbot",
   components: {
-    ProfileDialogSlackbot
+    ProfileDialogSlackbot,
+    FeedbackDialog
   },
   data() {
     return {
       windowBtnHover: false,
       message: "",
       conversations: [],
+      feedback: [],
       profileDialog: false,
+      feedbackDialog: false,
+      feedbackMode: false
     }
   },
   computed: {
@@ -130,6 +184,43 @@ export default {
     }
   },
   methods: {
+    cancelFeedback(doc) {
+      firestore.collection('conversations').doc(doc.id).update({
+        feedback: true
+      })
+      doc.feedback = true
+    },
+    async report(doc) {
+      const q_doc = await firestore.collection('conversations').doc(doc.question_id).get()
+        firestore.collection('feedback')
+          .add({
+            question_id: q_doc.id,
+            question_message: q_doc.data().message,
+            origin_message: doc.message,
+            feedback_message: doc.editMessage,
+            created_at: firebase.firestore.FieldValue.serverTimestamp()
+          })
+      firestore.collection('conversations').doc(doc.id).update({
+        feedback: true
+      })
+      doc.message = doc.editMessage
+      doc.feedback = true
+      this.editTrigger(doc)
+    },
+    getFeedback() {
+      firestore.collection('feedback').orderBy('created_at', 'desc').get()
+      .then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          this.feedback.push({
+            ...doc.data()
+          });
+        });
+      })
+      .catch(err => console.log(err));
+    },
+    editTrigger(doc) {
+      doc.isEdit = !doc.isEdit
+    },
     exitKakaoTalk() {
       this.$router.replace('/home');
     },
@@ -146,10 +237,16 @@ export default {
               unread: true,
               new: true
             })
-          firestore.collection('questions')
-            .add({
-              question: this.message
-            });
+            .then(new_doc => {
+              firestore.collection('conversations').doc(new_doc.id).get()
+                .then(doc => {
+                  firestore.collection('questions')
+                    .add({
+                      question_id: doc.id,
+                      question: doc.data().message
+                    });
+                })
+            })
           this.message = "";
         }
       }
@@ -221,6 +318,15 @@ export default {
     parents(dialog) {
       this.profileDialog = dialog;
     },
+    openFeedbackDialog() {
+      if (this.isAdmin) {
+        this.getFeedback();
+        this.feedbackDialog = true;
+      }
+    },
+    parentsFeedback(dialog) {
+      this.feedbackDialog = dialog;
+    },
   },
   created() {
     firestore.collection('conversations').orderBy("created_at")
@@ -230,6 +336,8 @@ export default {
           if (change.type === "added") {
             let data = change.doc.data()
             data.id = change.doc.id
+            data.isEdit = false
+            data.editMessage = data.message
             if (data.slackbot) {
               this.conversations.forEach(doc => {
                 firestore.collection('conversations').doc(doc.id).update({
