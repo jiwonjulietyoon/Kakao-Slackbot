@@ -29,8 +29,8 @@
             </div>
             <i class="material-icons-round left document" @click="openFeedbackDialog">description</i>
             <div class="feedbackToggle left" v-if="isAdmin">
-              <i class="material-icons-round" @click="feedbackMode=true" v-show="!feedbackMode">toggle_on</i>
-              <i class="material-icons-round" @click="feedbackMode=false" v-show="feedbackMode">toggle_off</i>
+              <i class="material-icons-round" @click="feedbackMode=true" v-show="!feedbackMode">toggle_off</i>
+              <i class="material-icons-round" @click="feedbackMode=false" v-show="feedbackMode">toggle_on</i>
             </div>
             <div class="icons right">
               <i class="material-icons-round menu">menu</i>

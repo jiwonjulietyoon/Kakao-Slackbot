@@ -72,7 +72,7 @@
       }
       .feedbackToggle {
         margin-left: 5px;
-        transform: translateY(5.5px);
+        transform: translateY(6px);
         width: 25px;
         height: 15px;
         position: relative;
@@ -81,10 +81,9 @@
           position: absolute;
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
-          color: $btn-gray2;
           @include disable-user-select;
           &:first-child {
-            color: $mac-red;
+            color: $btn-gray2;
           }
           &:last-child {
             color: $mac-green;
@@ -216,7 +215,7 @@
       }
     }
     .msgTime > div > div > .feedbackBtnBox2 {
-      width: 35px;
+      width: 34px;
       height: 17px;
       background: #FE4A4A;
       position: absolute;
@@ -237,6 +236,7 @@
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           font-size: 1.3em;
+          @include disable-user-select;
         }
       }
       &.hidden {
