@@ -87,7 +87,7 @@
                 </div>
                 <div v-else class="feedbackBtnBox2" :class="{'hidden' : !isAdmin}">
                   <!-- https://vuetifyjs.com/en/components/ratings#usage -->
-                  <div class="btn">
+                  <div class="btn" @click="cancelFeedback(c)">
                     <i class="material-icons-round">check</i>
                   </div>
                   <div class="btn" @click="editTrigger(c)">
@@ -166,6 +166,12 @@ export default {
     }
   },
   methods: {
+    cancelFeedback(doc) {
+      firestore.collection('conversations').doc(doc.id).update({
+        feedback: true
+      })
+      doc.feedback = true
+    },
     async report(doc) {
       const q_doc = await firestore.collection('conversations').doc(doc.question_id).get()
         firestore.collection('feedback')
