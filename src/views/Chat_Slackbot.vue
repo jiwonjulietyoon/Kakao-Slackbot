@@ -363,7 +363,6 @@ export default {
             if (data.new === false) {
               this.conversations.push(data);
             } else {
-              console.log(data.slackbot)
               if (data.slackbot) {
                 setTimeout(() => {
                   this.conversations.push(data);
