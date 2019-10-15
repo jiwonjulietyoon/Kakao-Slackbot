@@ -255,6 +255,11 @@ export default {
       const trimmedMsg = this.message.replace(/\s+/g, '');
       if (trimmedMsg) {
         let now = new Date();
+        this.conversations.forEach(doc => {
+          if(doc.unread) {
+            doc.unread = false
+          }  
+        })
         this.conversations.push({
           created_at: now.getTime(),
           slackbot: false,
@@ -265,7 +270,9 @@ export default {
           created_at: now.getTime(),
           slackbot: true,
           message: "Visitor 계정은 챗봇에 연결되어 있지 않습니다 :(",
-          username: "Slackbot"
+          username: "Slackbot",
+          unread: true,
+          new: true
         })
         this.message = "";
         this.scrollToEnd();
@@ -340,10 +347,12 @@ export default {
             data.editMessage = data.message
             if (data.slackbot) {
               this.conversations.forEach(doc => {
-                firestore.collection('conversations').doc(doc.id).update({
-                  unread: false,
-                  new: false
-                })
+                if (this.isAdmin) {
+                  firestore.collection('conversations').doc(doc.id).update({
+                    unread: false,
+                    new: false
+                  })
+                }
                 doc.unread = false;
                 doc.new = false;
               })
@@ -357,9 +366,11 @@ export default {
               if (data.slackbot) {
                 setTimeout(() => {
                   this.conversations.push(data);
-                  firestore.collection('conversations').doc(data.id).update({
-                    new: false
-                  })
+                  if (this.isAdmin) {
+                    firestore.collection('conversations').doc(data.id).update({
+                      new: false
+                    })
+                  }
                   this.scrollToEnd();
                 }, 2000);
               } else {
