@@ -208,17 +208,6 @@ export default {
       this.editTrigger(doc)
     },
     getFeedback() {
-      // firestore.collection('conversations').orderBy("created_at")
-      // .onSnapshot(snapshot => {
-      //   let changes = snapshot.docChanges();
-      //   changes.forEach(change => {
-      //     if (change.type === "added") {
-      //       this.feedback.push({
-      //         ...change.doc.data()
-      //       })
-      //     }
-      //   })
-      // })
       firestore.collection('feedback').orderBy('created_at', 'desc').get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
