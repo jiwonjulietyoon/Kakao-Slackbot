@@ -389,11 +389,6 @@ export default {
   mounted() {
     this.scrollToEnd();
   },
-  watch: {
-    feedbackDialog: function() {
-      this.feedback = []
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>
