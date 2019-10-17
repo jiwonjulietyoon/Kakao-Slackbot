@@ -192,14 +192,14 @@ export default {
     },
     async report(doc) {
       const q_doc = await firestore.collection('conversations').doc(doc.question_id).get()
-        firestore.collection('feedback')
-          .add({
-            question_id: q_doc.id,
-            question_message: q_doc.data().message,
-            origin_message: doc.message,
-            feedback_message: doc.editMessage,
-            created_at: firebase.firestore.FieldValue.serverTimestamp()
-          })
+      firestore.collection('feedback')
+        .add({
+          question_id: q_doc.id,
+          question_message: q_doc.data().message,
+          origin_message: doc.message,
+          feedback_message: doc.editMessage,
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        })
       firestore.collection('conversations').doc(doc.id).update({
         feedback: true
       })
@@ -208,6 +208,7 @@ export default {
       this.editTrigger(doc)
     },
     getFeedback() {
+      this.feedback = []
       firestore.collection('feedback').orderBy('created_at', 'desc').get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
@@ -334,53 +335,56 @@ export default {
     parentsFeedback(dialog) {
       this.feedbackDialog = dialog;
     },
-  },
-  created() {
-    firestore.collection('conversations').orderBy("created_at")
-      .onSnapshot(snapshot => {
-        let changes = snapshot.docChanges();
-        changes.forEach(change => {
-          if (change.type === "added") {
-            let data = change.doc.data()
-            data.id = change.doc.id
-            data.isEdit = false
-            data.editMessage = data.message
-            if (data.slackbot) {
-              this.conversations.forEach(doc => {
-                if (this.isAdmin) {
-                  firestore.collection('conversations').doc(doc.id).update({
-                    unread: false,
-                    new: false
-                  })
-                }
-                doc.unread = false;
-                doc.new = false;
-              })
-            }
-            if (data.created_at !== null) {
-              data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
-            }
-            if (data.new === false) {
-              this.conversations.push(data);
-            } else {
-              if (data.slackbot) {
-                setTimeout(() => {
-                  this.conversations.push(data);
-                  if (this.isAdmin) {
-                    firestore.collection('conversations').doc(data.id).update({
+    getFirestoreAsOnSnapshot() {  // TODO: 추후에 모듈화할 것
+      firestore.collection('conversations').orderBy("created_at")
+        .onSnapshot(snapshot => {
+          let changes = snapshot.docChanges();
+          changes.forEach(change => {
+            if (change.type === "added") {  // Firestore에 새로운 문서가 추가됐을 때, 자동으로 뷰에 업데이트되는 onSnapshot 메소드.
+              let data = change.doc.data()
+              data.id = change.doc.id
+              data.isEdit = false
+              data.editMessage = data.message
+              if (data.slackbot) {   // 만약 새로운 문서(메시지)가 슬랙봇의 답장이라면
+                this.conversations.forEach(doc => {
+                  if (this.isAdmin) {  // 사용자가 방문자 계정일 때 자동 생성되는 슬랙봇 메시지에는 Firestore의 doc.id 가 없으므로, 이 과정을 생략한다.
+                    firestore.collection('conversations').doc(doc.id).update({  // (새로 온 슬랙봇 메시지) 이전의 모든 메시지를 Firestore 상에서 읽음 처리한다.
+                      unread: false,
                       new: false
                     })
                   }
-                  this.scrollToEnd();
-                }, 2000);
-              } else {
-                this.conversations.push(data);
+                  doc.unread = false;  // 뷰 프로젝트 안의 로컬 메시지들도 읽음 처리한다.
+                  doc.new = false;
+                })
               }
+              if (data.created_at !== null) {
+                data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
+              }
+              if (data.new === false) {
+                this.conversations.push(data);  // 채팅방에 바로 렌더링된다.
+              } else {
+                if (data.slackbot) {
+                  setTimeout(() => {  // 새로 온 슬랙봇 메시지에 로딩 스피너를 걸기 위해 타임아웃을 건다 (채팅방에 바로 렌더링되지 않음).
+                    this.conversations.push(data);
+                    if (this.isAdmin) {
+                      firestore.collection('conversations').doc(data.id).update({
+                        new: false
+                      })
+                    }
+                    this.scrollToEnd();
+                  }, 2000);
+                } else {
+                  this.conversations.push(data);  // 채팅방에 바로 렌더링된다.
+                }
+              }
+              this.scrollToEnd();
             }
-            this.scrollToEnd();
-          }
-        })
-      });
+          })
+        });
+    }
+  },
+  created() {  
+    this.getFirestoreAsOnSnapshot();
   },
   mounted() {
     this.scrollToEnd();
