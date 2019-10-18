@@ -36,15 +36,16 @@
           </ul>
           <br>
           <br>
-          
+
           <h2>챗봇 시연</h2>
-          <img src="@/assets/kakao.gif" alt="" width=400 style="border: 1px solid rgb(210, 208, 207);">
+          <img src="@/assets/slackbotChat.gif" alt="" width=350>
+          <br>
           <br>
           <br>
           <br>
 
 
-          <h2>주요 페이지 소개</h2>
+          <h2>주요 기능 소개</h2>
 
           <h3>로그인</h3>
           <div class="quote">
@@ -76,7 +77,7 @@
           </div>
           <br>
 
-          <h3>채팅방</h3>
+          <h3>채팅방 (슬랙봇 이외)</h3>
           <div class="quote">
             <div>
               <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/team_profile%2FChatroom.png?alt=media&token=b8452ace-1c97-4a20-8801-7f7601ca7cb3" alt="Chatroom" width=250 style="marginRight: 20px;">
@@ -90,7 +91,50 @@
             </ul>
           </div>
           <br>
+          <br>
+          <br>
 
+          <h2>관리자 기능 소개</h2>
+          <h3>슬랙봇 채팅</h3>
+          <div class="quote">
+            <img src="@/assets/slackbotChat.gif" alt="" width=450>
+            <ul>
+              <li>슬랙봇이 답장하기 전에는 사용자가 전송한 메시지가 '안읽음 1' 표시됩니다.</li>
+            </ul>
+          </div>
+          <br>
+          <h3>슬랙봇 메시지 수정 (챗봇 모델 재학습용 추가 데이터)</h3>
+          <div class="quote">챗봇 모델 학습에 사용된 데이터가 충분하지 않을 경우 챗봇 답변이 자연스럽지 않은 경우가 종종 발생합니다.
+이때 추가 데이터를 수집하여 모델을 재학습시키면 보다 정확도가 높은 챗봇을 구현할 수 있을 것입니다.
+그렇기 때문에 관리자 계정에는 잘못된 챗봇의 답변을 수정하여 사용자 입력과 모범 챗봇 답변을 데이터베이스에 저장할 수 있는 기능을 추가했습니다.
+            <div>
+              <img src="@/assets/feedbackToggleBtn.gif" alt="" width=350>
+            </div>
+            <ul>
+              <li>상단의 토글 버튼을 클릭하면 슬랙봇 답변을 수정할 수 있는 버튼이 나옵니다.</li>
+              <li>슬랙봇의 답변이 자연스러우면 "체크" 버튼을, 수정하고 싶다면 "편집" 버튼을 클릭합니다.</li>
+            </ul>
+            <br>
+            <div>
+              <img src="@/assets/feedbackDialog.gif" alt="" width=350>
+            </div>
+            <ul>
+              <li>편집하기 버튼을 클릭하면 챗봇 답변을 수정할 수 있는 인풋란이 나옵니다.</li>
+              <li>답변을 수정한 이후 상단 토글 버튼 왼쪽의 문서 버튼을 클릭하면, 지금까지 데이터베이스에 저장된 수정 내역을 확인할 수 있습니다.</li>
+              <li>추후 챗봇 모델 재학습 시, 데이터베이스에 저장된 추가 데이터를 불어올 수 있습니다.</li>
+            </ul>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <h2>&#127881; 최우수 프로젝트로 선정 &#127882;</h2>
+          <img src="https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/readme_contents%2Fgroup10.jpg?alt=media&token=faa1e367-904a-41b8-8741-a7bd704c9567" alt="" width=300>
+          <p>2019년 10월 16일</p>
+          <p>SSAFY 1기 특화 프로젝트 서울 2반 1등</p>
+          <br>
           
         <!-- <div class="quote">Block Quote
 BlockQUote</div>
