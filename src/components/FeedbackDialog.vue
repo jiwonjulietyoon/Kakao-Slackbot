@@ -1,19 +1,7 @@
 <template>
   <div class="dialogOuter">
     <!-- Mac Window Buttons -->
-    <div class="btnBoxMac">
-      <div class="btn close" @click.prevent="closeDialog" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-        <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-      </div>
-      <div class="btn minimize" @click.prevent="closeDialog" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-        <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-      </div>
-      <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-        <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-        <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-      </div>
-    </div>
+    <MacWindowBtns :onExit="'closeDialog'" @child="parentsCloseDialog" />
     
     <div class="Container scrollable">
       <h3 class="Title">챗봇 모델 재학습용 데이터</h3>
@@ -31,19 +19,20 @@
 
 <script>
 import firestore from "@/firebase/firebase";
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 
 export default {
   name: "FeedbackDialog",
+  components: {
+    MacWindowBtns
+  },
   props: {
     feedback: {type: Array, required: true}
   },
-  data: () => ({
-    windowBtnHover: false,
-  }),
   methods: {
-    closeDialog() {
-      return this.$emit("child", false);
-    },
+    parentsCloseDialog() {
+      return this.$emit("child")
+    }
   },
 }
 </script>
