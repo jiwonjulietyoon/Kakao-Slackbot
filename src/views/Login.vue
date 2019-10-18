@@ -3,19 +3,7 @@
     <div class="kakaoContainer">
       
       <!-- Mac Window Buttons -->
-      <div class="btnBoxMac">
-        <div class="btn close" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn minimize" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-      </div>
+      <MacWindowBtns :onExit="'toRoot'" />
 
       <!-- Logo & Login Form -->
       <div class="main">
@@ -56,11 +44,14 @@
 
 <script>
 import firebaseAuth from "@/firebase/firebaseAuth";
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 
 export default {
+  components: {
+    MacWindowBtns
+  },
   data() {
     return {
-      windowBtnHover: false,
       email: "",
       password: "",
       loginErrorMsg: "",
@@ -90,9 +81,6 @@ export default {
     }
   },
   methods: {
-    exitKakaoTalk() {
-      this.$router.replace('/');
-    },
     login() {
       this.loginClick()
       firebaseAuth
@@ -281,7 +269,6 @@ export default {
     display: none;
   }
 }
-
 
 .footerText {
   width: 100%;

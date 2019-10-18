@@ -2,19 +2,8 @@
   <div class="kakaoContainer">
     <div class="botInfo">
       <!-- Mac Window Buttons -->
-      <div class="btnBoxMac">
-        <div class="btn close" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn minimize" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-      </div>
+      <MacWindowBtns :onExit="'toHome'" />
+
       <div class="infoBox">
         <img class="botImg" src="@/assets/slack-icon.png" alt="" @click.stop="profileDialog = true">
         <div class="botText">
@@ -156,18 +145,19 @@
 import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
 import FeedbackDialog from "@/components/FeedbackDialog.vue";
 
 export default {
   name: "Chat_Slackbot",
   components: {
+    MacWindowBtns,
     ProfileDialogSlackbot,
     FeedbackDialog
   },
   data() {
     return {
-      windowBtnHover: false,
       message: "",
       conversations: [],
       feedback: [],
@@ -221,9 +211,6 @@ export default {
     },
     editTrigger(doc) {
       doc.isEdit = !doc.isEdit
-    },
-    exitKakaoTalk() {
-      this.$router.replace('/home');
     },
     sendMsgAdmin() {
       if (this.isAdmin) {

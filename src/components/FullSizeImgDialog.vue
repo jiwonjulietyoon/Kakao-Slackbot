@@ -1,19 +1,7 @@
 <template>
   <div class="dialogOuter">
     <!-- Mac Window Buttons -->
-    <div class="btnBoxMac">
-      <div class="btn close" @click.prevent="closeDialog" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-        <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-      </div>
-      <div class="btn minimize" @click.prevent="closeDialog" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-        <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-      </div>
-      <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-        <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-        <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-      </div>
-    </div>
+    <MacWindowBtns :onExit="'closeDialog'" @child="parentsCloseDialog" />
     
     <div class="Container">
       <div class="bg"></div>
@@ -39,14 +27,17 @@
 
 
 <script>
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 
 export default {
   name: "FullSizeImgDialog",
+  components: {
+    MacWindowBtns
+  },
   props: {
     url: {type: String}
   },
   data: () => ({
-    windowBtnHover: false,
     imgRotate: 0,
     imgScale: 1,
   }),
@@ -58,7 +49,7 @@ export default {
     }
   },
   methods: {
-    closeDialog() {
+    parentsCloseDialog() {
       this.$store.dispatch("setFullSizeImgDialog", false);
       this.$store.dispatch("setFullSizeImgURL", "");
       this.reset();

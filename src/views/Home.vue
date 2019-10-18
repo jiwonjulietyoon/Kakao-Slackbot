@@ -5,19 +5,7 @@
       <!-- LEFT SIDE (VERTICAL MENU BAR) -->
       <section class="menubar">
         <!-- Mac Window Buttons -->
-        <div class="btnBoxMac">
-          <div class="btn close" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-            <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-            <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-          </div>
-          <div class="btn minimize" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-            <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-          </div>
-          <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-            <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-            <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-          </div>
-        </div>
+        <MacWindowBtns :onExit="'toRoot'" />
         
         <!-- Menu Buttons -->
         <div class="menuBtnBox">
@@ -123,18 +111,19 @@
 <script>
 import firebaseAuth from "@/firebase/firebaseAuth";
 import { mapGetters } from "vuex";
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 import ProfileDialog from "@/components/ProfileDialog.vue";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
 import ProfileDialogSelf from "@/components/ProfileDialogSelf.vue";
 
 export default {
   components: {
+    MacWindowBtns,
     ProfileDialog,
     ProfileDialogSlackbot,
     ProfileDialogSelf
   },
   data: () => ({
-    windowBtnHover: false,
     showLogoutMenu: false,
     friendsearch: "",
     profileDialog: false,

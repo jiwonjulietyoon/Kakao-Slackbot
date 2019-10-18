@@ -2,19 +2,7 @@
   <div class="kakaoContainer">
     <div class="botInfo">
       <!-- Mac Window Buttons -->
-      <div class="btnBoxMac">
-        <div class="btn close" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn minimize" @click.prevent="exitKakaoTalk" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-      </div>
+      <MacWindowBtns :onExit="'toHome'" />
 
       <div class="infoBox">
         <img class="botImg" :src="myProfileImg" alt="" @click.stop="profileDialog = true">
@@ -91,16 +79,17 @@
 
 <script>
 import { mapGetters } from "vuex";
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 import ProfileDialogSelf from "@/components/ProfileDialogSelf.vue";
 
 export default {
   name: "Chat_Self",
   components: {
+    MacWindowBtns,
     ProfileDialogSelf
   },
   data() {
     return {
-      windowBtnHover: false,
       message: "",
       conversations: [],
       profileDialog: false,
@@ -120,9 +109,6 @@ export default {
     }
   },
   methods: {
-    exitKakaoTalk() {
-      this.$router.replace('/home');
-    },
     sendMsg() {
       const trimmedMsg = this.message.replace(/\s+/g, '');
       if (trimmedMsg) {

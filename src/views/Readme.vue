@@ -2,19 +2,7 @@
   <div class="wrap">
     <div class="mdEditor">
       <!-- Mac Window Buttons -->
-      <div class="btnBoxMac">
-        <div class="btn close" @click.prevent="exitReadme" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn minimize" @click.prevent="exitReadme" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="cross" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-        <div class="btn expand" @mouseenter="windowBtnHover = true" @mouseleave="windowBtnHover = false">
-          <div class="rectangle" :class="{'hidden': !windowBtnHover}"></div>
-          <div class="diagonal" :class="{'hidden': !windowBtnHover}"></div>
-        </div>
-      </div>
+      <MacWindowBtns :onExit="'toRoot'" />
 
       <div class="docTitle">README.md [Read Only]</div>
 
@@ -157,15 +145,12 @@ BlockQUote</div>
 
 
 <script>
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
+
 export default {
-  data: () => ({
-    windowBtnHover: false,
-  }),
-  methods: {
-    exitReadme() {
-      this.$router.replace('/')
-    }
-  }
+  components: {
+    MacWindowBtns
+  },
 }
 </script>
 
