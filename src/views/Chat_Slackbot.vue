@@ -36,17 +36,19 @@
     </div>
     
     <div class="messageContainer scrollable" id="scroll">
-      <div v-for="(c,idx) in conversations" :key="idx" class="messageItem">
-        <div class="message" 
-          :class="c.slackbot ? 'botMessage' : 'userMessage'"
-        >
+      <div class="messageItem" v-for="(c,idx) in conversations" :key="idx">
+        
+        <!-- Regular Messages (both bot and user) -->
+        <div class="message" :class="c.slackbot ? 'botMessage' : 'userMessage'">
+          <!-- 1. Profile Image -->
           <div class="profImg">
             <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
           </div>
+
+          <!-- 2. Message Content (chat bubble) -->
           <div v-if="!c.isEdit" class="msgContent">
             <div>{{c.message}}</div>
           </div>
-          <!-- https://vuetifyjs.com/en/components/text-fields#validation -->
           <div v-else class="msgContent">
             <div>{{c.message}}</div>
             <v-divider></v-divider>
@@ -62,15 +64,14 @@
               </v-textarea>
             </v-sheet>
           </div>
-          <div class="msgTime">
-            <div
-              :title="full_date(c)"
-            >
-              {{get_time(c)}}
-              <span class="unread" :class="{'display': c.unread}">1</span>
+
+          <!-- 3. Message Info (time, unread, feedback edit) -->
+          <div class="msgInfo">
+            
+            <!-- [Bot Only] Msg Edit Box for Feedback -->
+            <div class="msgEdit">
               <div v-if='c.slackbot && !c.feedback && feedbackMode'>
-                <div v-if="c.isEdit" class="feedbackBtnBox1" :class="{'hidden' : !isAdmin}">
-                  <!-- https://vuetifyjs.com/en/components/ratings#usage -->
+                <div v-if="c.isEdit" class="feedbackBtnBox edit" :class="{'hidden' : !isAdmin}">
                   <div class="btn" @click="report(c)">
                     <i class="material-icons-round">check</i>
                   </div>
@@ -78,8 +79,7 @@
                     <i class="material-icons-round">cancel</i>
                   </div>
                 </div>
-                <div v-else class="feedbackBtnBox2" :class="{'hidden' : !isAdmin}">
-                  <!-- https://vuetifyjs.com/en/components/ratings#usage -->
+                <div v-else class="feedbackBtnBox notEdit" :class="{'hidden' : !isAdmin}">
                   <div class="btn" @click="cancelFeedback(c)">
                     <i class="material-icons-round">check</i>
                   </div>
@@ -89,27 +89,40 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-                
-        <div class="message botMessage"
-          v-if="idx == conversations.length - 1 && c.unread == false"
-        >
+
+            <!-- [User Only] Unread '1' -->
+            <div class="msgUnread">
+              <span v-if="c.unread">1</span>
+            </div>
+
+            <!-- [Both Bot and User messages] -->
+            <div class="msgTime">
+              <div :title="full_date(c)">{{get_time(c)}}</div>
+            </div>
+          
+          </div> <!-- .msgInfo -->
+          
+        </div> <!-- .message -->
+
+
+        <!-- Bot Message with Loading Spinner -->
+        <div class="message botMessage" v-if="idx == conversations.length - 1 && c.unread == false">
           <div class="profImg">
             <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
           </div>
           <v-btn text fab x-small id="thinking" class="elevation-0" :loading="true"></v-btn>
-          <div class="msgTime">
-            <div
-              :title="full_date(c)"
-            >
-              {{get_time(c)}}
-              <span class="unread" :class="{'display': c.unread}">1</span>
+          <div class="msgInfo">
+            <div class="msgEdit"></div>
+            <div class="msgTime">
+              <div :title="full_date(c)">{{get_time(c)}}</div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </div> <!-- .message | Bot Message with Loading Spinner -->
+
+      </div> <!-- .messageItem -->
+    </div> <!-- .messageContainer -->
+    
+
     <div class="attach">
       <i class="material-icons-round icons left emoji">tag_faces</i>
       <i class="material-icons-round icons left clip">attachment</i>
