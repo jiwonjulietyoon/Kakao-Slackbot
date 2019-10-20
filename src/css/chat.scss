@@ -1,5 +1,8 @@
 @import "./style.scss";
 
+///////////////////////////////////
+// .botInfo ///////////////////////
+
 .botInfo {
   height: 100px;
   background: rgb(250, 250, 250);
@@ -127,6 +130,11 @@
   }
 }
 
+
+///////////////////////////////////
+// .messageContainer //////////////
+
+// Common for both Bot AND User messages
 .messageContainer {
   height: calc(100% - 245px);
   overflow-y: auto;
@@ -138,153 +146,150 @@
   align-items: stretch;
   margin: 10px 0;
   height: auto;
-  .profImg {
-    height: 100%;
-  }
-  .profImg > img {
+}
+.profImg {
+  height: 100%;
+  img {
     width: 30px;
     height: 30px;
-    margin-right: 15px;
+    margin-right: 10px;
     object-fit: cover;
     border-radius: 12px;
   }
-  .msgContent {
-    margin: 0 3px;
-    max-width: 65%;
-    height: 100%;
-    padding: 3px 1px;
-    border-radius: 4px;
-    box-shadow: 1px 1px 3px 0px lightgray;
-    position: relative;
-    font-size: 0.9em;
-    & > div {
-      padding: 5px 7px 2px;
-      white-space: pre-line;
-      line-height: 20px;
-    }
-    &::after {
-      position: absolute;
-      width: 0; height: 0;
-      top: 6px;
-      border-radius: 3px;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-    }
+}
+.msgContent {
+  margin: 0 3px;
+  max-width: 65%;
+  height: 100%;
+  padding: 3px 1px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 3px 0px lightgray;
+  position: relative;
+  font-size: 0.9em;
+  & > div {
+    padding: 5px 7px 2px;
+    white-space: pre-line;
+    line-height: 20px;
   }
-  &.botMessage {
-    flex-direction: row;
-    .msgContent {
-      background: white;
-      &::after {
-        border-top: 7px solid white;
-        right: calc(100% - 7px);
-      }
-    }
-    .unread {
-      display: none;
+  &::after {
+    position: absolute;
+    width: 0; height: 0;
+    top: 6px;
+    border-radius: 3px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+  }
+}
+.msgInfo {
+  font-size: 0.6em;
+  width: 50px;
+  & > .msgEdit, & > .msgUnread, & > .msgTime {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    @include disable-user-select;
+  }
+}
+
+
+// Bot Messages ONLY
+.message.botMessage {
+  flex-direction: row;
+  & > .msgContent {
+    background: white;
+    &::after {
+      border-top: 7px solid white;
+      right: calc(100% - 7px);
     }
     .feedbackTextarea {
       font-size: 0.9em;
     }
-    .msgTime > div > div > .feedbackBtnBox1 {
-      width: 35px;
-      height: 17px;
-      background: green;
-      position: absolute;
-      bottom: 100%;
-      border-radius: 5px;
-      & > .btn {
-        width: 50%;
-        height: 100%;
-        float: left;
-        position: relative;
-        cursor: pointer;
-        &:first-child {
-          border-right: 1px solid $btn-gray-hover;
-        }
-        i {
-          color: white;
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 1.3em;
-        }
-      }
-      &.hidden {
-        display: none;
-      }
-    }
-    .msgTime > div > div > .feedbackBtnBox2 {
-      width: 34px;
-      height: 17px;
-      background: #FE4A4A;
-      position: absolute;
-      bottom: 100%;
-      border-radius: 5px;
-      & > .btn {
-        width: 50%;
-        height: 100%;
-        float: left;
-        position: relative;
-        cursor: pointer;
-        &:first-child {
-          border-right: 1px solid $btn-gray-hover;
-        }
-        i {
-          color: white;
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 1.3em;
-          @include disable-user-select;
-        }
-      }
-      &.hidden {
-        display: none;
-      }
-    }
   }
-  &.userMessage {
-    flex-direction: row-reverse;
-    .profImg {
+  & > .msgInfo {
+    & > .msgEdit {
+      .feedbackBtnBox {
+        width: 35px;
+        height: 17px;
+        position: relative;
+        top: 1px;
+        border-radius: 5px;
+        & > .btn {
+          width: 50%;
+          height: 100%;
+          float: left;
+          position: relative;
+          cursor: pointer;
+          &:first-child {
+            border-right: 1px solid $btn-gray-hover;
+          }
+          & > i {
+            color: white;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3em;
+          }
+        }
+        &.edit {
+          background: green;
+        }
+        &.notEdit {
+          background: #FE4A4A;
+        }
+      }
+    }
+    & > .msgUnread {
       display: none;
-    }
-    .msgContent {
-      background: $kakao-yellow;
-      &::after {
-        border-top: 7px solid $kakao-yellow;
-        left: calc(100% - 7px);
-      }
-    }
-    .msgTime > div {
-      text-align: right;
-      .unread {
-        color: $kakao-yellow;
-        position: absolute;
-        bottom: 80%;
-        right: 0;
-        font-size: 1em;
-        display: none;
-        &.display {
-          display: initial;
-        }
-      }
-      & > .feedbackBtnBox {
-        display: none;
-      }
-    }
-  }
-  .msgTime {
-    font-size: 0.6em;
-    position: relative;
-    width: 50px;
-    & > div {
-      width: 100%;
-      position: absolute;
-      bottom: 2px;
     }
   }
 }
+
+#thinking {
+  margin-right: 10px;
+  color: $kakao-yellow;
+  background-color: transparent;
+}
+
+
+// User messages ONLY
+.message.userMessage {
+  flex-direction: row-reverse;
+  & > .profImg {
+    display: none;
+  }
+  & > .msgContent {
+    background: $kakao-yellow;
+    &::after {
+      border-top: 7px solid $kakao-yellow;
+      left: calc(100% - 7px);
+    }
+  }
+  & > .msgInfo {
+    & > .msgEdit {
+      display: none;
+    }
+    & > .msgUnread {
+      & > span {
+        position: absolute;
+        right: 0;
+        top: 4px;
+        color: $kakao-yellow;
+      }
+    }
+    & > .msgTime {
+      & > div {
+        text-align: right;
+      }
+    }
+  }
+}
+
+
+
+
+
+///////////////////////////////////
+// .attach ////////////////////////
 
 .attach {
   height: 45px;
@@ -307,6 +312,11 @@
     font-size: 1.4em;
   }
 }
+
+
+
+///////////////////////////////////
+// .sendMessage ///////////////////
 
 .sendMessage {
   height: 100px;
