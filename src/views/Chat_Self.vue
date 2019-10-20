@@ -43,11 +43,13 @@
             <div>{{c.message}}</div>
           </div>
           <div class="msgInfo">
-            <!-- .msgEdit, .msgUnread merely act as placeholders in this component -->
-            <div class="msgEdit"></div>
-            <div class="msgUnread"></div>
-            <div class="msgTime">
-              <div :title="full_date(c)">{{get_time(c)}}</div>
+            <div class="Container">
+              <!-- .msgEdit, .msgUnread merely act as placeholders in this component -->
+              <div class="msgEdit"></div>
+              <div class="msgUnread"></div>
+              <div class="msgTime">
+                <div :title="full_date(c)">{{get_time(c)}}</div>
+              </div>
             </div>
           </div>
         </div>

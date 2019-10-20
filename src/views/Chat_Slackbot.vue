@@ -67,39 +67,41 @@
 
           <!-- 3. Message Info (time, unread, feedback edit) -->
           <div class="msgInfo">
-            
-            <!-- [Bot Only] Msg Edit Box for Feedback -->
-            <div class="msgEdit">
-              <div v-if='c.slackbot && !c.feedback && feedbackMode'>
-                <div v-if="c.isEdit" class="feedbackBtnBox edit" :class="{'hidden' : !isAdmin}">
-                  <div class="btn" @click="report(c)">
-                    <i class="material-icons-round">check</i>
+            <div class="Container">
+
+              <!-- [Bot Only] Msg Edit Box for Feedback -->
+              <div class="msgEdit">
+                <div v-if='c.slackbot && !c.feedback && feedbackMode'>
+                  <div v-if="c.isEdit" class="feedbackBtnBox edit" :class="{'hidden' : !isAdmin}">
+                    <div class="btn" @click="report(c)">
+                      <i class="material-icons-round">check</i>
+                    </div>
+                    <div class="btn" @click="editTrigger(c)">
+                      <i class="material-icons-round">cancel</i>
+                    </div>
                   </div>
-                  <div class="btn" @click="editTrigger(c)">
-                    <i class="material-icons-round">cancel</i>
-                  </div>
-                </div>
-                <div v-else class="feedbackBtnBox notEdit" :class="{'hidden' : !isAdmin}">
-                  <div class="btn" @click="cancelFeedback(c)">
-                    <i class="material-icons-round">check</i>
-                  </div>
-                  <div class="btn" @click="editTrigger(c)">
-                    <i class="material-icons-round">edit</i>
+                  <div v-else class="feedbackBtnBox notEdit" :class="{'hidden' : !isAdmin}">
+                    <div class="btn" @click="cancelFeedback(c)">
+                      <i class="material-icons-round">check</i>
+                    </div>
+                    <div class="btn" @click="editTrigger(c)">
+                      <i class="material-icons-round">edit</i>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- [User Only] Unread '1' -->
-            <div class="msgUnread">
-              <span v-if="c.unread">1</span>
-            </div>
+              <!-- [User Only] Unread '1' -->
+              <div class="msgUnread">
+                <span v-if="c.unread">1</span>
+              </div>
 
-            <!-- [Both Bot and User messages] -->
-            <div class="msgTime">
-              <div :title="full_date(c)">{{get_time(c)}}</div>
-            </div>
-          
+              <!-- [Both Bot and User messages] -->
+              <div class="msgTime">
+                <div :title="full_date(c)">{{get_time(c)}}</div>
+              </div>
+
+            </div> <!-- .Container -->
           </div> <!-- .msgInfo -->
           
         </div> <!-- .message -->
