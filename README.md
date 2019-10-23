@@ -27,7 +27,7 @@
 
 ![Project Overview](https://firebasestorage.googleapis.com/v0/b/slackbot-test-4130a.appspot.com/o/readme_contents%2Fproject_overview.png?alt=media&token=8b72c5af-9596-4415-9b7a-017a1b1cc0b6)
 
-[Slack, Python/Flask, 및 Firebase 연동에 대한 상세 안내는 이 포스트를 참고해주세요.](<https://github.com/jiwonjulietyoon/Kakao-Slackbot/blob/master/Slack_Firestore_Integration.md>)
+[Slack, Python/Flask, 및 Firebase 연동에 대한 상세 안내는 이 포스트를 참고해주세요.](<https://github.com/jiwonjulietyoon/Kakao-Slackbot/blob/master/documentation/Slack_Firestore_Integration.md>)
 
 <br>
 
