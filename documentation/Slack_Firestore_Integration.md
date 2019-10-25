@@ -37,7 +37,7 @@ In summary, this post will primarily demonstrate how to:
 
 
 
-![Process Overview](./img/slack_firestore_integration_process_overview.png)
+![Process Overview](./slack_firestore_integration_process_overview.png)
 
 1. User enters a message, which is stored into both Firestore `questions` and `conversations` collections.
 2. This message appears in the Kakao-clone chatroom, which renders Firestore `conversations` collection data in realtime.
@@ -238,9 +238,7 @@ Please refer to <https://github.com/jiwonjulietyoon/Kakao-Slackbot/> for the mos
   <div class="kakaoContainer">
     <div class="botInfo">
       <!-- Mac Window Buttons -->
-      <div class="btnBoxMac">
-        ...
-      </div>
+      <MacWindowBtns :onExit="'toHome'" />
 
       <div class="infoBox">
         ...
@@ -248,27 +246,93 @@ Please refer to <https://github.com/jiwonjulietyoon/Kakao-Slackbot/> for the mos
     </div>
     
     <div class="messageContainer scrollable" id="scroll">
-      <div v-for="c in conversations" :key="c.id">
-        <div class="message" 
-          :class="c.slackbot ? 'botMessage' : 'userMessage'"
-        >
+      <div class="messageItem" v-for="(c,idx) in conversations" :key="idx">
+        
+        <!-- Regular Messages (both bot and user) -->
+        <div class="message" :class="c.slackbot ? 'botMessage' : 'userMessage'">
+          <!-- 1. Profile Image -->
           <div class="profImg">
-            <img src="@/assets/slack-icon.png">
+            <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
           </div>
-          <div class="msgContent">
+
+          <!-- 2. Message Content (chat bubble) -->
+          <div v-if="!c.isEdit" class="msgContent">
             <div>{{c.message}}</div>
           </div>
-          <div class="msgTime">
-            <div
-              :title="full_date(c)"
-            >
-              {{get_time(c)}}
-              <span class="unread" :class="{'display': c.unread}">1</span>
+          <div v-else class="msgContent">
+            <div>{{c.message}}</div>
+            <v-divider></v-divider>
+            <v-sheet>
+              <v-textarea
+                class="feedbackTextarea"
+                v-model="c.editMessage"
+                :auto-grow="true"
+                :outlined="true"
+                :clearable="true"
+                :rows="2"
+              >
+              </v-textarea>
+            </v-sheet>
+          </div>
+
+          <!-- 3. Message Info (time, unread, feedback edit) -->
+          <div class="msgInfo">
+            <div class="Container">
+
+              <!-- [Bot Only] Msg Edit Box for Feedback -->
+              <div class="msgEdit">
+                <div v-if='c.slackbot && !c.feedback && feedbackMode'>
+                  <div v-if="c.isEdit" class="feedbackBtnBox edit" :class="{'hidden' : !isAdmin}">
+                    <div class="btn" @click="report(c)">
+                      <i class="material-icons-round">check</i>
+                    </div>
+                    <div class="btn" @click="editTrigger(c)">
+                      <i class="material-icons-round">cancel</i>
+                    </div>
+                  </div>
+                  <div v-else class="feedbackBtnBox notEdit" :class="{'hidden' : !isAdmin}">
+                    <div class="btn" @click="cancelFeedback(c)">
+                      <i class="material-icons-round">check</i>
+                    </div>
+                    <div class="btn" @click="editTrigger(c)">
+                      <i class="material-icons-round">edit</i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- [User Only] Unread '1' -->
+              <div class="msgUnread">
+                <span v-if="c.unread">1</span>
+              </div>
+
+              <!-- [Both Bot and User messages] -->
+              <div class="msgTime">
+                <div :title="full_date(c)">{{get_time(c)}}</div>
+              </div>
+
+            </div> <!-- .Container -->
+          </div> <!-- .msgInfo -->
+          
+        </div> <!-- .message -->
+
+
+        <!-- Bot Message with Loading Spinner -->
+        <div class="message botMessage" v-if="idx == conversations.length - 1 && c.unread == false">
+          <div class="profImg">
+            <img src="@/assets/slack-icon.png" @click.stop="profileDialog = true">
+          </div>
+          <v-btn text fab x-small id="thinking" class="elevation-0" :loading="true"></v-btn>
+          <div class="msgInfo">
+            <div class="msgEdit"></div>
+            <div class="msgTime">
+              <div :title="full_date(c)">{{get_time(c)}}</div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </div> <!-- .message | Bot Message with Loading Spinner -->
+
+      </div> <!-- .messageItem -->
+    </div> <!-- .messageContainer -->
 
     <div class="attach">
       <i class="material-icons-round icons left emoji">tag_faces</i>
@@ -291,6 +355,11 @@ Please refer to <https://github.com/jiwonjulietyoon/Kakao-Slackbot/> for the mos
     <v-dialog v-model="profileDialog" class="profileDialog" width="300">
       <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />
     </v-dialog>
+      
+    <!-- Feedback Dialog -->
+    <v-dialog v-model="feedbackDialog" width="400">
+      <FeedbackDialog @child="parentsFeedback" :feedback="feedback" />
+    </v-dialog>
   </div>
 </template>
 
@@ -298,7 +367,9 @@ Please refer to <https://github.com/jiwonjulietyoon/Kakao-Slackbot/> for the mos
 import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
+import MacWindowBtns from "@/components/MacWindowBtns.vue";
 import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
+import FeedbackDialog from "@/components/FeedbackDialog.vue";
 
 export default {
   name: "Chat_Slackbot",
